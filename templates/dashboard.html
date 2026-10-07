@@ -1,109 +1,139 @@
 {% extends "base.html" %}
 
-{% block title %}Admin Dashboard{% endblock %}
+{% block title %}
+Admin Dashboard - Blood Donor Management System
+{% endblock %}
 
 {% block content %}
 
-<div class="page-container">
+<div class="dashboard-page">
 
-    <h1>📊 Admin Dashboard</h1>
+    <!-- =====================================================
+         DASHBOARD HEADER
+    ====================================================== -->
 
-    <p>
-        Welcome Administrator!
-    </p>
+    <div class="dashboard-header">
+        <h1>🩸 Admin Dashboard</h1>
+        <p>Welcome Administrator!</p>
+    </div>
 
 
-    <div class="dashboard-grid">
+    <!-- =====================================================
+         STATISTICS CARDS
+    ====================================================== -->
 
-        <div class="dashboard-card">
+    <div class="stats">
 
-            <h2>👥</h2>
+        <!-- Total Donors -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                👥
+            </div>
 
-            <h3>{{ total_donors }}</h3>
+            <h2>{{ total_donors }}</h2>
 
             <p>Total Donors</p>
-
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- Available Donors -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                🟢
+            </div>
 
-            <h2>🟢</h2>
-
-            <h3>{{ available_donors }}</h3>
+            <h2>{{ available_donors }}</h2>
 
             <p>Available Donors</p>
-
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- Unavailable Donors -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                🔴
+            </div>
 
-            <h2>🔴</h2>
-
-            <h3>{{ unavailable_donors }}</h3>
+            <h2>{{ unavailable_donors }}</h2>
 
             <p>Unavailable Donors</p>
-
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- Total Requests -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                🩸
+            </div>
 
-            <h2>🩸</h2>
-
-            <h3>{{ total_requests }}</h3>
+            <h2>{{ total_requests }}</h2>
 
             <p>Total Requests</p>
-
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- Pending Requests -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                ⏳
+            </div>
 
-            <h2>⏳</h2>
-
-            <h3>{{ pending_requests }}</h3>
+            <h2>{{ pending_requests }}</h2>
 
             <p>Pending Requests</p>
-
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- Approved Requests -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                ✅
+            </div>
 
-            <h2>✅</h2>
-
-            <h3>{{ approved_requests }}</h3>
+            <h2>{{ approved_requests }}</h2>
 
             <p>Approved Requests</p>
-
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- Rejected Requests -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                ❌
+            </div>
 
-            <h2>❌</h2>
-
-            <h3>{{ rejected_requests }}</h3>
+            <h2>{{ rejected_requests }}</h2>
 
             <p>Rejected Requests</p>
-
         </div>
 
     </div>
 
 
-    <div class="dashboard-buttons">
+    <!-- =====================================================
+         DASHBOARD ACTIONS
+    ====================================================== -->
 
-        <a class="btn"
-           href="{{ url_for('donors') }}">
-            Manage Donors
+    <div class="dashboard-actions">
+
+        <a href="{{ url_for('donors') }}"
+           class="btn btn-primary">
+            👥 Manage Donors
         </a>
 
-        <a class="btn"
-           href="{{ url_for('requests') }}">
-            Manage Requests
+        <a href="{{ url_for('requests') }}"
+           class="btn btn-danger">
+            🩸 Manage Requests
+        </a>
+
+        <a href="{{ url_for('register_donor') }}"
+           class="btn btn-success">
+            ➕ Add Donor
+        </a>
+
+        <a href="{{ url_for('add_request') }}"
+           class="btn btn-warning">
+            ➕ Blood Request
         </a>
 
     </div>

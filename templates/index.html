@@ -1,86 +1,209 @@
 {% extends "base.html" %}
 
-{% block title %}Home - BloodCare{% endblock %}
+{% block title %}
+Home - Blood Donor Management System
+{% endblock %}
 
 {% block content %}
 
+<!-- =====================================================
+     HERO SECTION
+====================================================== -->
+
 <section class="hero">
 
-    <div>
+    <div class="hero-content">
 
-        <h1>
-            Donate Blood.
-            <span>Save Lives.</span>
-        </h1>
+        <div class="hero-icon">
+            🩸
+        </div>
+
+        <h1>Donate Blood. Save Lives.</h1>
 
         <p>
             Every blood donation can help save someone's life.
             Join our donor community today.
         </p>
 
-        <a class="btn"
-           href="{{ url_for('register_donor') }}">
-            Become a Donor
-        </a>
+        <div class="hero-buttons">
 
-        <a class="btn secondary"
-           href="{{ url_for('donors') }}">
-            Find a Donor
-        </a>
+            <a href="{{ url_for('register_donor') }}"
+               class="btn btn-light">
+                ❤️ Become a Donor
+            </a>
+
+            <a href="{{ url_for('donors') }}"
+               class="btn btn-outline">
+                🔎 Find a Donor
+            </a>
+
+        </div>
 
     </div>
 
 </section>
 
 
-<section class="stats">
+<!-- =====================================================
+     STATISTICS
+====================================================== -->
 
-    <div class="stat-card">
-        <h2>{{ donor_count }}</h2>
-        <p>Total Donors</p>
+<section class="home-stats">
+
+    <!-- Total Donors -->
+
+    <div class="home-stat-card">
+
+        <div class="home-stat-icon">
+            👥
+        </div>
+
+        <div class="home-stat-number">
+            {{ donor_count }}
+        </div>
+
+        <div class="home-stat-title">
+            Total Donors
+        </div>
+
     </div>
 
-    <div class="stat-card">
-        <h2>{{ available_count }}</h2>
-        <p>Available Donors</p>
+
+    <!-- Available Donors -->
+
+    <div class="home-stat-card">
+
+        <div class="home-stat-icon">
+            🟢
+        </div>
+
+        <div class="home-stat-number">
+            {{ available_count }}
+        </div>
+
+        <div class="home-stat-title">
+            Available Donors
+        </div>
+
     </div>
 
-    <div class="stat-card">
-        <h2>{{ request_count }}</h2>
-        <p>Blood Requests</p>
+
+    <!-- Blood Requests -->
+
+    <div class="home-stat-card">
+
+        <div class="home-stat-icon">
+            🩸
+        </div>
+
+        <div class="home-stat-number">
+            {{ request_count }}
+        </div>
+
+        <div class="home-stat-title">
+            Blood Requests
+        </div>
+
     </div>
 
 </section>
 
 
-<section class="info-section">
+<!-- =====================================================
+     WHY DONATE BLOOD
+====================================================== -->
 
-    <h2>Why Donate Blood?</h2>
+<section class="why-donate">
 
-    <div class="cards">
+    <div class="section-title">
 
-        <div class="card">
-            <h3>❤️ Save Lives</h3>
+        <h2>Why Donate Blood?</h2>
+
+        <p>
+            Your simple act of kindness can make a big difference.
+        </p>
+
+    </div>
+
+
+    <div class="benefit-container">
+
+
+        <!-- Save Lives -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                ❤️
+            </div>
+
+            <h3>Save Lives</h3>
+
             <p>
-                Your blood can help patients during emergencies.
+                Your blood can help patients during emergencies,
+                surgeries and critical medical situations.
             </p>
+
         </div>
 
-        <div class="card">
-            <h3>🩸 Help Patients</h3>
+
+        <!-- Help Patients -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                🩸
+            </div>
+
+            <h3>Help Patients</h3>
+
             <p>
-                Support hospitals and patients who need blood.
+                Support hospitals and patients who urgently
+                need blood for their treatment.
             </p>
+
         </div>
 
-        <div class="card">
-            <h3>🤝 Build Community</h3>
+
+        <!-- Build Community -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                🤝
+            </div>
+
+            <h3>Build Community</h3>
+
             <p>
-                Become part of a community of life-saving donors.
+                Become part of a caring community of
+                life-saving blood donors.
             </p>
+
         </div>
 
     </div>
+
+</section>
+
+
+<!-- =====================================================
+     CALL TO ACTION
+====================================================== -->
+
+<section class="home-cta">
+
+    <h2>Ready to Save a Life?</h2>
+
+    <p>
+        Register as a blood donor today and help someone
+        in need.
+    </p>
+
+    <a href="{{ url_for('register_donor') }}"
+       class="btn btn-light">
+        🩸 Register as Donor
+    </a>
 
 </section>
 

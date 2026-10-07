@@ -1,112 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        Blood Donor Management System
+        {% endblock %}
+    </title>
 
-    <title>{% block title %}Blood Donor Management System{% endblock %}</title>
-
+    <!-- CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
 
 <body>
 
-<header>
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
 
     <nav class="navbar">
 
-        <div class="logo">
-            🩸 BloodCare
-        </div>
+        <div class="nav-container">
 
-        <div class="nav-links">
+            <!-- Logo -->
+            <div class="logo">
+                🩸 Blood Donor System
+            </div>
 
-            <a href="{{ url_for('home') }}">Home</a>
+            <!-- Navigation Links -->
+            <div class="nav-links">
 
-            <a href="{{ url_for('register_donor') }}">
-                Become a Donor
-            </a>
-
-            <a href="{{ url_for('donors') }}">
-                Find Donors
-            </a>
-
-            <a href="{{ url_for('add_request') }}">
-                Blood Request
-            </a>
-
-            <a href="{{ url_for('requests') }}">
-                Requests
-            </a>
-
-            {% if session.get("admin") %}
-
-                <a href="{{ url_for('dashboard') }}">
-                    Dashboard
+                <!-- FIXED: index instead of home -->
+                <a href="{{ url_for('index') }}">
+                    Home
                 </a>
 
-                <a href="{{ url_for('logout') }}">
-                    Logout
+                <a href="{{ url_for('register_donor') }}">
+                    Become a Donor
                 </a>
 
-            {% else %}
-
-                <a href="{{ url_for('login') }}">
-                    Admin
+                <a href="{{ url_for('donors') }}">
+                    Find Donors
                 </a>
 
-            {% endif %}
+                <a href="{{ url_for('add_request') }}">
+                    Blood Request
+                </a>
+
+                <a href="{{ url_for('requests') }}">
+                    Requests
+                </a>
+
+                {% if session.get('admin') %}
+
+                    <a href="{{ url_for('dashboard') }}">
+                        Dashboard
+                    </a>
+
+                    <a href="{{ url_for('logout') }}">
+                        Logout
+                    </a>
+
+                {% else %}
+
+                    <a href="{{ url_for('login') }}">
+                        Admin Login
+                    </a>
+
+                {% endif %}
+
+            </div>
 
         </div>
 
     </nav>
 
-</header>
+
+    <!-- =====================================================
+         FLASH MESSAGES
+    ====================================================== -->
+
+    <div class="flash-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
 
 
-<main>
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
+    <main class="main-content">
 
-        {% if messages %}
+        {% block content %}
 
-            {% for category, message in messages %}
+        {% endblock %}
 
-                <div class="alert {{ category }}">
-                    {{ message }}
-                </div>
-
-            {% endfor %}
-
-        {% endif %}
-
-    {% endwith %}
+    </main>
 
 
-    {% block content %}
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
-    {% endblock %}
+    <footer class="footer">
 
-</main>
+        <p>
+            🩸 Blood Donor Management System
+        </p>
+
+        <p>
+            © 2026 All Rights Reserved
+        </p>
+
+    </footer>
 
 
-<footer>
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
-    <p>
-        © 2026 BloodCare Blood Donor Management System
-    </p>
-
-</footer>
-
-
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
-
 </html>
