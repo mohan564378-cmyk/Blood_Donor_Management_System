@@ -1,189 +1,1509 @@
 {% extends "base.html" %}
 
-{% block title %}
-Blood Request
-{% endblock %}
+{% block title %}Request Blood | BloodCare{% endblock %}
 
 {% block content %}
 
-<section class="page-section">
+<section class="blood-request-page">
 
-    <div class="form-container">
+    <!-- ================= HERO ================= -->
 
-        <div class="form-header">
+    <div class="request-hero">
 
-            <div class="form-icon">
-                &#9829;
-            </div>
+        <div class="request-hero-content">
+
+            <span class="request-label">
+                🩸 EMERGENCY BLOOD SUPPORT
+            </span>
 
             <h1>
-                Blood Request
+                Request Blood
+                <span>When It Matters Most</span>
             </h1>
 
             <p>
-                Submit a request for blood assistance.
+                Submit a blood request and help connect patients
+                with available blood donors in the community.
+            </p>
+
+            <div class="request-hero-points">
+
+                <div>
+                    <span>✓</span>
+                    Quick request submission
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    Multiple blood groups supported
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    Donor community support
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="request-hero-card">
+
+            <div class="hero-blood-icon">
+                🩸
+            </div>
+
+            <strong>
+                Every second matters
+            </strong>
+
+            <p>
+                Your request can help someone
+                find the blood they need.
             </p>
 
         </div>
 
+    </div>
 
-        <form method="POST"
-              class="donor-form">
 
-            <div class="form-grid">
+    <!-- ================= MAIN CONTENT ================= -->
 
-                <div class="form-group">
+    <div class="request-layout">
 
-                    <label>
-                        Patient Name
-                    </label>
+        <!-- ================= FORM ================= -->
 
-                    <input type="text"
-                           name="patient_name"
-                           placeholder="Enter patient name"
-                           required>
+        <div class="request-form-card">
+
+            <div class="form-card-header">
+
+                <div>
+
+                    <span class="form-step">
+                        STEP 01
+                    </span>
+
+                    <h2>
+                        Patient & Blood Details
+                    </h2>
+
+                    <p>
+                        Please provide accurate information
+                        so donors can respond quickly.
+                    </p>
+
+                </div>
+
+                <div class="form-header-icon">
+                    📋
+                </div>
+
+            </div>
+
+
+            <form method="POST"
+                  action="{{ url_for('add_request') }}"
+                  id="bloodRequestForm">
+
+
+                <!-- ================= PATIENT ================= -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+
+                        <div class="section-number">
+                            01
+                        </div>
+
+                        <div>
+                            <h3>Patient Information</h3>
+
+                            <p>
+                                Information about the person
+                                who needs blood.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="patient_name">
+                                Patient Name
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patient_name"
+                                name="patient_name"
+                                placeholder="Enter patient's full name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Contact Number
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Enter contact number"
+                                maxlength="15"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
+                <!-- ================= BLOOD ================= -->
 
-                    <label>
-                        Blood Group
-                    </label>
+                <div class="form-section">
 
-                    <select name="blood_group"
-                            required>
+                    <div class="form-section-title">
 
-                        <option value="">
-                            Select Blood Group
-                        </option>
+                        <div class="section-number blood-number">
+                            02
+                        </div>
 
-                        <option value="A+">
-                            A+
-                        </option>
+                        <div>
+                            <h3>Blood Requirement</h3>
 
-                        <option value="A-">
-                            A-
-                        </option>
+                            <p>
+                                Select the required blood group
+                                and number of units.
+                            </p>
+                        </div>
 
-                        <option value="B+">
-                            B+
-                        </option>
+                    </div>
 
-                        <option value="B-">
-                            B-
-                        </option>
 
-                        <option value="AB+">
-                            AB+
-                        </option>
+                    <div class="blood-selection">
 
-                        <option value="AB-">
-                            AB-
-                        </option>
+                        <div class="form-group">
 
-                        <option value="O+">
-                            O+
-                        </option>
+                            <label for="blood_group">
+                                Required Blood Group
+                                <span>*</span>
+                            </label>
 
-                        <option value="O-">
-                            O-
-                        </option>
+                            <select
+                                id="blood_group"
+                                name="blood_group"
+                                required
+                            >
 
-                    </select>
+                                <option value="">
+                                    Select blood group
+                                </option>
+
+                                <option value="A+">A+</option>
+                                <option value="A-">A−</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B−</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB−</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O−</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="units">
+                                Required Units
+                                <span>*</span>
+                            </label>
+
+                            <div class="units-input">
+
+                                <button
+                                    type="button"
+                                    class="unit-btn"
+                                    onclick="changeUnits(-1)">
+                                    −
+                                </button>
+
+                                <input
+                                    type="number"
+                                    id="units"
+                                    name="units"
+                                    value="1"
+                                    min="1"
+                                    max="20"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="unit-btn"
+                                    onclick="changeUnits(1)">
+                                    +
+                                </button>
+
+                            </div>
+
+                            <small>
+                                Enter the number of blood units required.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="blood-group-info">
+
+                        <div class="blood-info-icon">
+                            🩸
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Need help choosing?
+                            </strong>
+
+                            <p>
+                                Select the blood group exactly as specified
+                                by the patient's doctor or hospital.
+                            </p>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
+                <!-- ================= HOSPITAL ================= -->
 
-                    <label>
-                        Required Units
-                    </label>
+                <div class="form-section">
 
-                    <input type="number"
-                           name="units"
-                           min="1"
-                           max="20"
-                           placeholder="Example: 2"
-                           required>
+                    <div class="form-section-title">
+
+                        <div class="section-number">
+                            03
+                        </div>
+
+                        <div>
+                            <h3>Hospital Information</h3>
+
+                            <p>
+                                Tell us where the blood is needed.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="hospital">
+                                Hospital Name
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="hospital"
+                                name="hospital"
+                                placeholder="Enter hospital name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="city">
+                                City
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                placeholder="Enter city"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
+                <!-- ================= REASON ================= -->
 
-                    <label>
-                        Hospital
-                    </label>
+                <div class="form-section">
 
-                    <input type="text"
-                           name="hospital"
-                           placeholder="Hospital name"
-                           required>
+                    <div class="form-section-title">
+
+                        <div class="section-number">
+                            04
+                        </div>
+
+                        <div>
+                            <h3>Additional Information</h3>
+
+                            <p>
+                                Provide any useful information
+                                about the blood requirement.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="reason">
+                            Reason / Medical Information
+                        </label>
+
+                        <textarea
+                            id="reason"
+                            name="reason"
+                            rows="5"
+                            placeholder="Example: Emergency surgery, accident, pregnancy, treatment, etc."
+                        ></textarea>
+
+                        <small>
+                            Please avoid entering highly sensitive
+                            personal medical information.
+                        </small>
+
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
+                <!-- ================= SAFETY ================= -->
 
-                    <label>
-                        City
-                    </label>
+                <div class="request-notice">
 
-                    <input type="text"
-                           name="city"
-                           placeholder="Hospital city"
-                           required>
+                    <div class="notice-icon">
+                        ⚠️
+                    </div>
 
-                </div>
+                    <div>
 
+                        <strong>
+                            Important Information
+                        </strong>
 
-                <div class="form-group">
+                        <p>
+                            Please make sure the blood group,
+                            hospital details and contact number
+                            are correct before submitting.
+                        </p>
 
-                    <label>
-                        Contact Phone
-                    </label>
-
-                    <input type="tel"
-                           name="phone"
-                           placeholder="Contact number"
-                           required>
+                    </div>
 
                 </div>
 
 
-                <div class="form-group full-width">
+                <!-- ================= ACTIONS ================= -->
 
-                    <label>
-                        Reason / Additional Information
-                    </label>
+                <div class="request-form-actions">
 
-                    <textarea name="reason"
-                              rows="5"
-                              placeholder="Enter additional information"></textarea>
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="btn btn-secondary"
+                    >
+                        ← Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary request-submit"
+                    >
+                        🩸 Submit Blood Request
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="request-sidebar">
+
+            <!-- Emergency -->
+
+            <div class="sidebar-card emergency-sidebar">
+
+                <div class="sidebar-icon">
+                    🚨
+                </div>
+
+                <span>
+                    EMERGENCY SUPPORT
+                </span>
+
+                <h3>
+                    Need Blood Urgently?
+                </h3>
+
+                <p>
+                    Submit your request immediately.
+                    Our donor directory can help identify
+                    available donors.
+                </p>
+
+                <a
+                    href="{{ url_for('donors') }}"
+                    class="sidebar-button"
+                >
+                    Find Available Donors →
+                </a>
+
+            </div>
+
+
+            <!-- Process -->
+
+            <div class="sidebar-card">
+
+                <div class="sidebar-heading">
+
+                    <div class="sidebar-heading-icon">
+                        🔄
+                    </div>
+
+                    <div>
+                        <span>HOW IT WORKS</span>
+                        <h3>Request Process</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="process-list">
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            1
+                        </div>
+
+                        <div>
+                            <strong>
+                                Submit Request
+                            </strong>
+
+                            <p>
+                                Enter patient and blood details.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            2
+                        </div>
+
+                        <div>
+                            <strong>
+                                Request Review
+                            </strong>
+
+                            <p>
+                                The administrator reviews the request.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            3
+                        </div>
+
+                        <div>
+                            <strong>
+                                Connect With Donors
+                            </strong>
+
+                            <p>
+                                Suitable donors can be identified.
+                            </p>
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
 
-            <div class="form-submit">
+            <!-- Blood Groups -->
 
-                <button type="submit"
-                        class="btn btn-primary">
+            <div class="sidebar-card blood-groups-card">
 
-                    Submit Blood Request
+                <span class="sidebar-mini-title">
+                    BLOOD GROUPS
+                </span>
 
-                </button>
+                <h3>
+                    Supported Blood Groups
+                </h3>
+
+                <div class="blood-group-grid">
+
+                    <div>A+</div>
+                    <div>A−</div>
+                    <div>B+</div>
+                    <div>B−</div>
+                    <div>AB+</div>
+                    <div>AB−</div>
+                    <div>O+</div>
+                    <div>O−</div>
+
+                </div>
 
             </div>
 
-        </form>
+
+            <!-- Privacy -->
+
+            <div class="privacy-card">
+
+                <span>
+                    🔒
+                </span>
+
+                <div>
+
+                    <strong>
+                        Your information matters
+                    </strong>
+
+                    <p>
+                        Only provide information necessary
+                        for processing the blood request.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
 
     </div>
 
 </section>
+
+
+<style>
+
+/* =====================================================
+   BLOOD REQUEST PAGE
+===================================================== */
+
+.blood-request-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px 70px;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.request-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+    padding: 45px;
+    margin-bottom: 28px;
+    border-radius: 28px;
+    color: white;
+    background:
+        linear-gradient(
+            135deg,
+            #7f1d1d 0%,
+            #b91c1c 45%,
+            #dc2626 100%
+        );
+    box-shadow:
+        0 20px 50px rgba(127, 29, 29, 0.20);
+}
+
+.request-hero-content {
+    max-width: 780px;
+}
+
+.request-label {
+    display: inline-block;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fecaca;
+}
+
+.request-hero h1 {
+    margin: 0;
+    color: white;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1;
+}
+
+.request-hero h1 span {
+    display: block;
+    color: #fecaca;
+}
+
+.request-hero p {
+    max-width: 680px;
+    margin: 18px 0;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.8;
+}
+
+.request-hero-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.request-hero-points div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.request-hero-points span {
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.16);
+}
+
+.request-hero-card {
+    width: 260px;
+    flex-shrink: 0;
+    padding: 28px;
+    text-align: center;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(10px);
+}
+
+.hero-blood-icon {
+    width: 70px;
+    height: 70px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    font-size: 32px;
+}
+
+.request-hero-card strong {
+    display: block;
+    font-size: 18px;
+}
+
+.request-hero-card p {
+    margin: 9px 0 0;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
+.request-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 350px;
+    gap: 25px;
+    align-items: start;
+}
+
+
+/* =====================================================
+   FORM CARD
+===================================================== */
+
+.request-form-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow:
+        0 12px 35px rgba(15, 23, 42, 0.07);
+}
+
+.form-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background: #fafafa;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.form-step {
+    color: #dc2626;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.form-card-header h2 {
+    margin: 7px 0 5px;
+    color: #111827;
+    font-size: 25px;
+}
+
+.form-card-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.form-header-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 17px;
+    background: #fef2f2;
+    font-size: 27px;
+}
+
+
+/* =====================================================
+   FORM SECTIONS
+===================================================== */
+
+.form-section {
+    padding: 30px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.section-number {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.blood-number {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.form-section-title h3 {
+    margin: 0 0 4px;
+    color: #111827;
+    font-size: 17px;
+}
+
+.form-section-title p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.form-group label span {
+    color: #dc2626;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: white;
+    color: #111827;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 13px 14px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.form-group input,
+.form-group select {
+    height: 48px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #dc2626;
+    box-shadow:
+        0 0 0 4px rgba(220,38,38,0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #9ca3af;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 7px;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   BLOOD SELECTION
+===================================================== */
+
+.blood-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.units-input {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.units-input input {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    text-align: center;
+    font-weight: 800;
+    outline: none;
+}
+
+.units-input input:focus {
+    box-shadow: none;
+}
+
+.unit-btn {
+    width: 48px;
+    height: 100%;
+    border: 0;
+    background: #f9fafb;
+    color: #374151;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.unit-btn:hover {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+
+/* =====================================================
+   BLOOD INFO
+===================================================== */
+
+.blood-group-info {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 14px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+}
+
+.blood-info-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: white;
+}
+
+.blood-group-info strong {
+    color: #9a3412;
+    font-size: 13px;
+}
+
+.blood-group-info p {
+    margin: 3px 0 0;
+    color: #7c2d12;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   NOTICE
+===================================================== */
+
+.request-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin: 25px 30px;
+    padding: 17px;
+    border-radius: 14px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+}
+
+.notice-icon {
+    font-size: 20px;
+}
+
+.request-notice strong {
+    display: block;
+    color: #92400e;
+    font-size: 13px;
+}
+
+.request-notice p {
+    margin: 4px 0 0;
+    color: #78350f;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   FORM ACTIONS
+===================================================== */
+
+.request-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 25px 30px 30px;
+}
+
+.request-submit {
+    min-width: 220px;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.request-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-card {
+    padding: 23px;
+    border-radius: 20px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    box-shadow:
+        0 9px 25px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =====================================================
+   EMERGENCY SIDEBAR
+===================================================== */
+
+.emergency-sidebar {
+    color: white;
+    background:
+        linear-gradient(
+            145deg,
+            #991b1b,
+            #dc2626
+        );
+    border: 0;
+}
+
+.sidebar-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 17px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.14);
+    font-size: 23px;
+}
+
+.emergency-sidebar > span {
+    color: #fecaca;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.emergency-sidebar h3 {
+    margin: 7px 0;
+    color: white;
+    font-size: 20px;
+}
+
+.emergency-sidebar p {
+    margin: 0 0 18px;
+    color: rgba(255,255,255,0.78);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.sidebar-button {
+    display: block;
+    padding: 12px;
+    border-radius: 11px;
+    background: white;
+    color: #b91c1c;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+
+/* =====================================================
+   SIDEBAR HEADING
+===================================================== */
+
+.sidebar-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.sidebar-heading-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #fef2f2;
+}
+
+.sidebar-heading span {
+    color: #dc2626;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.sidebar-heading h3 {
+    margin: 3px 0 0;
+    color: #111827;
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   PROCESS
+===================================================== */
+
+.process-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.process-number {
+    width: 31px;
+    height: 31px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.process-item strong {
+    display: block;
+    color: #1f2937;
+    font-size: 13px;
+}
+
+.process-item p {
+    margin: 4px 0 0;
+    color: #9ca3af;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.process-line {
+    width: 1px;
+    height: 20px;
+    margin: 3px 0 3px 15px;
+    background: #e5e7eb;
+}
+
+
+/* =====================================================
+   BLOOD GROUPS
+===================================================== */
+
+.sidebar-mini-title {
+    color: #dc2626;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.blood-groups-card h3 {
+    margin: 6px 0 15px;
+    color: #111827;
+    font-size: 17px;
+}
+
+.blood-group-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.blood-group-grid div {
+    padding: 10px 4px;
+    border-radius: 10px;
+    background: #fef2f2;
+    color: #b91c1c;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+/* =====================================================
+   PRIVACY
+===================================================== */
+
+.privacy-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 17px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.privacy-card > span {
+    font-size: 20px;
+}
+
+.privacy-card strong {
+    display: block;
+    color: #334155;
+    font-size: 12px;
+}
+
+.privacy-card p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1050px) {
+
+    .request-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .request-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .emergency-sidebar {
+        grid-column: span 2;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .blood-request-page {
+        padding: 20px 14px 50px;
+    }
+
+    .request-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 30px;
+    }
+
+    .request-hero-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .form-grid,
+    .blood-selection {
+        grid-template-columns: 1fr;
+    }
+
+    .request-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .emergency-sidebar {
+        grid-column: auto;
+    }
+
+    .form-section {
+        padding: 24px 20px;
+    }
+
+    .form-card-header {
+        padding: 24px 20px;
+    }
+
+    .request-notice {
+        margin: 22px 20px;
+    }
+
+    .request-form-actions {
+        padding: 20px;
+        flex-direction: column-reverse;
+    }
+
+    .request-form-actions .btn {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .request-submit {
+        min-width: 0;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .request-hero {
+        padding: 24px;
+        border-radius: 20px;
+    }
+
+    .request-hero h1 {
+        font-size: 31px;
+    }
+
+    .request-hero-points {
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .form-card-header h2 {
+        font-size: 21px;
+    }
+
+    .form-header-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+/* =====================================================
+   BLOOD REQUEST JAVASCRIPT
+===================================================== */
+
+function changeUnits(amount) {
+
+    const input = document.getElementById("units");
+
+    if (!input) {
+        return;
+    }
+
+    let current = parseInt(input.value) || 1;
+
+    current += amount;
+
+    if (current < 1) {
+        current = 1;
+    }
+
+    if (current > 20) {
+        current = 20;
+    }
+
+    input.value = current;
+}
+
+
+/* Phone number cleanup */
+
+const phoneInput = document.getElementById("phone");
+
+if (phoneInput) {
+
+    phoneInput.addEventListener(
+        "input",
+        function () {
+
+            this.value = this.value.replace(
+                /[^0-9+ ]/g,
+                ""
+            );
+
+        }
+    );
+
+}
+
+
+/* Form submission loading state */
+
+const bloodRequestForm =
+    document.getElementById("bloodRequestForm");
+
+if (bloodRequestForm) {
+
+    bloodRequestForm.addEventListener(
+        "submit",
+        function () {
+
+            const button =
+                this.querySelector(".request-submit");
+
+            if (button) {
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    "⏳ Submitting Request...";
+
+            }
+
+        }
+    );
+
+}
+
+</script>
 
 {% endblock %}
