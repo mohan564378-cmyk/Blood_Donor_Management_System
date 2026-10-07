@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Blood Requests{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h1>🩸 Blood Requests</h1>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Blood Group</th>
+                    <th>Units</th>
+                    <th>Hospital</th>
+                    <th>City</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+
+                    {% if session.get("admin") %}
+                        <th>Actions</th>
+                    {% endif %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for req in requests %}
+
+                <tr>
+
+                    <td>{{ req.id }}</td>
+
+                    <td>{{ req.patient_name }}</td>
+
+                    <td>
+                        <strong class="blood">
+                            {{ req.blood_group }}
+                        </strong>
+                    </td>
+
+                    <td>{{ req.units }}</td>
+
+                    <td>{{ req.hospital }}</td>
+
+                    <td>{{ req.city }}</td>
+
+                    <td>{{ req.phone }}</td>
+
+                    <td>
+
+                        {% if req.status == "Pending" %}
+
+                            <span class="pending">
+                                Pending
+                            </span>
+
+                        {% elif req.status == "Approved" %}
+
+                            <span class="available">
+                                Approved
+                            </span>
+
+                        {% else %}
+
+                            <span class="unavailable">
+                                Rejected
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    {% if session.get("admin") %}
+
+                    <td>
+
+                        {% if req.status == "Pending" %}
+
+                        <a class="small-btn"
+                           href="{{ url_for('approve_request', request_id=req.id) }}">
+                            Approve
+                        </a>
+
+                        <a class="small-btn danger-btn"
+                           href="{{ url_for('reject_request', request_id=req.id) }}">
+                            Reject
+                        </a>
+
+                        {% endif %}
+
+                        <a class="small-btn danger-btn"
+                           href="{{ url_for('delete_request', request_id=req.id) }}"
+                           onclick="return confirm('Delete this request?')">
+                            Delete
+                        </a>
+
+                    </td>
+
+                    {% endif %}
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="9">
+                        No blood requests found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

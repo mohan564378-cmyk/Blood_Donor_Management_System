@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Blood Request{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h1>🩸 Blood Request</h1>
+
+    <form method="POST">
+
+        <label>Patient Name</label>
+
+        <input type="text"
+               name="patient_name"
+               required>
+
+
+        <label>Blood Group Required</label>
+
+        <select name="blood_group"
+                required>
+
+            <option value="">Select Blood Group</option>
+
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+            <option>O+</option>
+            <option>O-</option>
+
+        </select>
+
+
+        <label>Units Required</label>
+
+        <input type="number"
+               name="units"
+               min="1"
+               max="20"
+               required>
+
+
+        <label>Hospital Name</label>
+
+        <input type="text"
+               name="hospital"
+               required>
+
+
+        <label>City</label>
+
+        <input type="text"
+               name="city"
+               required>
+
+
+        <label>Contact Phone</label>
+
+        <input type="tel"
+               name="phone"
+               required>
+
+
+        <label>Reason</label>
+
+        <textarea name="reason"
+                  placeholder="Reason for blood requirement"></textarea>
+
+
+        <button class="btn"
+                type="submit">
+            Submit Blood Request
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

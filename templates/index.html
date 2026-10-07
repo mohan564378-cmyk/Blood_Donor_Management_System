@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Home - BloodCare{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div>
+
+        <h1>
+            Donate Blood.
+            <span>Save Lives.</span>
+        </h1>
+
+        <p>
+            Every blood donation can help save someone's life.
+            Join our donor community today.
+        </p>
+
+        <a class="btn"
+           href="{{ url_for('register_donor') }}">
+            Become a Donor
+        </a>
+
+        <a class="btn secondary"
+           href="{{ url_for('donors') }}">
+            Find a Donor
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="stats">
+
+    <div class="stat-card">
+        <h2>{{ donor_count }}</h2>
+        <p>Total Donors</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ available_count }}</h2>
+        <p>Available Donors</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ request_count }}</h2>
+        <p>Blood Requests</p>
+    </div>
+
+</section>
+
+
+<section class="info-section">
+
+    <h2>Why Donate Blood?</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>❤️ Save Lives</h3>
+            <p>
+                Your blood can help patients during emergencies.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>🩸 Help Patients</h3>
+            <p>
+                Support hospitals and patients who need blood.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>🤝 Build Community</h3>
+            <p>
+                Become part of a community of life-saving donors.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Donor{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h1>✏️ Edit Donor</h1>
+
+    <form method="POST">
+
+        <label>Name</label>
+
+        <input type="text"
+               name="name"
+               value="{{ donor.name }}"
+               required>
+
+
+        <label>Age</label>
+
+        <input type="number"
+               name="age"
+               value="{{ donor.age }}"
+               required>
+
+
+        <label>Gender</label>
+
+        <select name="gender">
+
+            <option {% if donor.gender == "Male" %}selected{% endif %}>
+                Male
+            </option>
+
+            <option {% if donor.gender == "Female" %}selected{% endif %}>
+                Female
+            </option>
+
+            <option {% if donor.gender == "Other" %}selected{% endif %}>
+                Other
+            </option>
+
+        </select>
+
+
+        <label>Blood Group</label>
+
+        <select name="blood_group">
+
+            {% for group in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
+
+                <option value="{{ group }}"
+                    {% if donor.blood_group == group %}selected{% endif %}>
+
+                    {{ group }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>Phone</label>
+
+        <input type="tel"
+               name="phone"
+               value="{{ donor.phone }}"
+               required>
+
+
+        <label>Email</label>
+
+        <input type="email"
+               name="email"
+               value="{{ donor.email or '' }}">
+
+
+        <label>City</label>
+
+        <input type="text"
+               name="city"
+               value="{{ donor.city }}"
+               required>
+
+
+        <label>Address</label>
+
+        <textarea name="address">{{ donor.address or '' }}</textarea>
+
+
+        <label>Last Donation</label>
+
+        <input type="date"
+               name="last_donation"
+               value="{{ donor.last_donation or '' }}">
+
+
+        <button class="btn"
+                type="submit">
+            Update Donor
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

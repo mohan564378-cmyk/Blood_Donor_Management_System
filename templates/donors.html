@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Find Donors{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h1>🩸 Find Blood Donors</h1>
+
+    <form method="GET"
+          class="search-form">
+
+        <input type="text"
+               name="search"
+               value="{{ search }}"
+               placeholder="Search name, city or phone">
+
+        <select name="blood_group">
+
+            <option value="">All Blood Groups</option>
+
+            <option value="A+" {% if blood_group == "A+" %}selected{% endif %}>A+</option>
+
+            <option value="A-" {% if blood_group == "A-" %}selected{% endif %}>A-</option>
+
+            <option value="B+" {% if blood_group == "B+" %}selected{% endif %}>B+</option>
+
+            <option value="B-" {% if blood_group == "B-" %}selected{% endif %}>B-</option>
+
+            <option value="AB+" {% if blood_group == "AB+" %}selected{% endif %}>AB+</option>
+
+            <option value="AB-" {% if blood_group == "AB-" %}selected{% endif %}>AB-</option>
+
+            <option value="O+" {% if blood_group == "O+" %}selected{% endif %}>O+</option>
+
+            <option value="O-" {% if blood_group == "O-" %}selected{% endif %}>O-</option>
+
+        </select>
+
+        <button class="btn"
+                type="submit">
+            Search
+        </button>
+
+    </form>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Blood Group</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>Status</th>
+
+                    {% if session.get("admin") %}
+                        <th>Actions</th>
+                    {% endif %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for donor in donors %}
+
+                <tr>
+
+                    <td>{{ donor.id }}</td>
+
+                    <td>{{ donor.name }}</td>
+
+                    <td>{{ donor.age }}</td>
+
+                    <td>{{ donor.gender }}</td>
+
+                    <td>
+                        <strong class="blood">
+                            {{ donor.blood_group }}
+                        </strong>
+                    </td>
+
+                    <td>{{ donor.phone }}</td>
+
+                    <td>{{ donor.city }}</td>
+
+                    <td>
+
+                        {% if donor.available %}
+
+                            <span class="available">
+                                Available
+                            </span>
+
+                        {% else %}
+
+                            <span class="unavailable">
+                                Unavailable
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    {% if session.get("admin") %}
+
+                    <td>
+
+                        <a class="small-btn"
+                           href="{{ url_for('edit_donor', donor_id=donor.id) }}">
+                            Edit
+                        </a>
+
+                        <a class="small-btn danger-btn"
+                           href="{{ url_for('delete_donor', donor_id=donor.id) }}"
+                           onclick="return confirm('Delete this donor?')">
+                            Delete
+                        </a>
+
+                        <a class="small-btn"
+                           href="{{ url_for('toggle_availability', donor_id=donor.id) }}">
+                            Toggle
+                        </a>
+
+                    </td>
+
+                    {% endif %}
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="9">
+                        No donors found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

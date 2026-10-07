@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h1>📊 Admin Dashboard</h1>
+
+    <p>
+        Welcome Administrator!
+    </p>
+
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <h2>👥</h2>
+
+            <h3>{{ total_donors }}</h3>
+
+            <p>Total Donors</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>🟢</h2>
+
+            <h3>{{ available_donors }}</h3>
+
+            <p>Available Donors</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>🔴</h2>
+
+            <h3>{{ unavailable_donors }}</h3>
+
+            <p>Unavailable Donors</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>🩸</h2>
+
+            <h3>{{ total_requests }}</h3>
+
+            <p>Total Requests</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>⏳</h2>
+
+            <h3>{{ pending_requests }}</h3>
+
+            <p>Pending Requests</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>✅</h2>
+
+            <h3>{{ approved_requests }}</h3>
+
+            <p>Approved Requests</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>❌</h2>
+
+            <h3>{{ rejected_requests }}</h3>
+
+            <p>Rejected Requests</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-buttons">
+
+        <a class="btn"
+           href="{{ url_for('donors') }}">
+            Manage Donors
+        </a>
+
+        <a class="btn"
+           href="{{ url_for('requests') }}">
+            Manage Requests
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
