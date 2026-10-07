@@ -1,102 +1,1337 @@
 {% extends "base.html" %}
 
-{% block title %}Register Donor{% endblock %}
+{% block title %}
+Register as Blood Donor - BloodCare
+{% endblock %}
 
 {% block content %}
 
-<div class="form-container">
+<section class="page-section">
 
-    <h1>🩸 Donor Registration</h1>
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
 
-    <form method="POST">
+    <div class="section-heading">
 
-        <label>Full Name</label>
+        <span>❤️ JOIN OUR DONOR COMMUNITY</span>
 
-        <input type="text"
-               name="name"
-               required>
+        <h1>Become a Blood Donor</h1>
 
+        <p>
+            Your blood donation can give someone another chance at life.
+            Register your details and become part of our life-saving community.
+        </p>
 
-        <label>Age</label>
-
-        <input type="number"
-               name="age"
-               min="18"
-               max="65"
-               required>
+    </div>
 
 
-        <label>Gender</label>
+    <!-- =========================
+         DONATION INTRO CARD
+    ========================== -->
 
-        <select name="gender" required>
+    <div
+        style="
+            max-width: 1050px;
+            margin: 0 auto 35px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+        "
+    >
 
-            <option value="">Select Gender</option>
+        <div
+            style="
+                background: linear-gradient(
+                    135deg,
+                    #7d0000,
+                    #c1121f,
+                    #e63946
+                );
+                color: #ffffff;
+                padding: 35px;
+                border-radius: 22px;
+                box-shadow: 0 12px 35px rgba(193,18,31,0.18);
+            "
+        >
 
-            <option>Male</option>
+            <div
+                style="
+                    font-size: 42px;
+                    margin-bottom: 12px;
+                "
+            >
+                🩸
+            </div>
 
-            <option>Female</option>
+            <h2
+                style="
+                    font-size: 30px;
+                    margin-bottom: 10px;
+                "
+            >
+                One Donation Can Save Lives
+            </h2>
 
-            <option>Other</option>
+            <p
+                style="
+                    color: #ffe9e9;
+                    font-size: 15px;
+                    max-width: 600px;
+                "
+            >
+                By registering as a donor, you help hospitals and patients
+                connect with suitable blood donors during emergencies.
+            </p>
 
-        </select>
+            <div
+                style="
+                    display: flex;
+                    gap: 25px;
+                    flex-wrap: wrap;
+                    margin-top: 25px;
+                "
+            >
+
+                <div>
+                    <strong
+                        style="
+                            display:block;
+                            font-size:25px;
+                        "
+                    >
+                        01
+                    </strong>
+
+                    <span
+                        style="
+                            font-size:12px;
+                            color:#ffe1e1;
+                        "
+                    >
+                        Register
+                    </span>
+                </div>
+
+                <div>
+                    <strong
+                        style="
+                            display:block;
+                            font-size:25px;
+                        "
+                    >
+                        02
+                    </strong>
+
+                    <span
+                        style="
+                            font-size:12px;
+                            color:#ffe1e1;
+                        "
+                    >
+                        Get Matched
+                    </span>
+                </div>
+
+                <div>
+                    <strong
+                        style="
+                            display:block;
+                            font-size:25px;
+                        "
+                    >
+                        03
+                    </strong>
+
+                    <span
+                        style="
+                            font-size:12px;
+                            color:#ffe1e1;
+                        "
+                    >
+                        Save a Life
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
 
 
-        <label>Blood Group</label>
+        <!-- =========================
+             QUICK INFORMATION
+        ========================== -->
 
-        <select name="blood_group" required>
+        <div
+            style="
+                background:#ffffff;
+                border:1px solid #eeeeee;
+                border-radius:22px;
+                padding:30px;
+                box-shadow:0 10px 30px rgba(0,0,0,0.06);
+            "
+        >
 
-            <option value="">Select Blood Group</option>
+            <h3
+                style="
+                    font-size:21px;
+                    margin-bottom:20px;
+                    color:#222222;
+                "
+            >
+                🛡️ Donor Information
+            </h3>
 
-            <option>A+</option>
-            <option>A-</option>
-            <option>B+</option>
-            <option>B-</option>
-            <option>AB+</option>
-            <option>AB-</option>
-            <option>O+</option>
-            <option>O-</option>
+            <div
+                style="
+                    display:flex;
+                    gap:14px;
+                    margin-bottom:18px;
+                "
+            >
 
-        </select>
+                <div
+                    style="
+                        width:42px;
+                        height:42px;
+                        min-width:42px;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                    "
+                >
+                    👤
+                </div>
+
+                <div>
+                    <strong
+                        style="
+                            display:block;
+                            font-size:14px;
+                        "
+                    >
+                        Personal Details
+                    </strong>
+
+                    <span
+                        style="
+                            font-size:12px;
+                            color:#888888;
+                        "
+                    >
+                        Basic information about the donor.
+                    </span>
+                </div>
+
+            </div>
 
 
-        <label>Phone</label>
+            <div
+                style="
+                    display:flex;
+                    gap:14px;
+                    margin-bottom:18px;
+                "
+            >
 
-        <input type="tel"
-               name="phone"
-               required>
+                <div
+                    style="
+                        width:42px;
+                        height:42px;
+                        min-width:42px;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                    "
+                >
+                    🩸
+                </div>
+
+                <div>
+                    <strong
+                        style="
+                            display:block;
+                            font-size:14px;
+                        "
+                    >
+                        Blood Information
+                    </strong>
+
+                    <span
+                        style="
+                            font-size:12px;
+                            color:#888888;
+                        "
+                    >
+                        Select your correct blood group.
+                    </span>
+                </div>
+
+            </div>
 
 
-        <label>Email</label>
+            <div
+                style="
+                    display:flex;
+                    gap:14px;
+                "
+            >
 
-        <input type="email"
-               name="email">
+                <div
+                    style="
+                        width:42px;
+                        height:42px;
+                        min-width:42px;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                    "
+                >
+                    📍
+                </div>
+
+                <div>
+                    <strong
+                        style="
+                            display:block;
+                            font-size:14px;
+                        "
+                    >
+                        Location Details
+                    </strong>
+
+                    <span
+                        style="
+                            font-size:12px;
+                            color:#888888;
+                        "
+                    >
+                        Help patients find donors nearby.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
-        <label>City</label>
+    <!-- =========================
+         REGISTRATION FORM
+    ========================== -->
 
-        <input type="text"
-               name="city"
-               required>
+    <div class="form-container">
+
+        <div
+            style="
+                border-bottom:1px solid #eeeeee;
+                padding-bottom:20px;
+                margin-bottom:28px;
+            "
+        >
+
+            <h2
+                style="
+                    font-size:25px;
+                    color:#222222;
+                    margin-bottom:5px;
+                "
+            >
+                Donor Registration
+            </h2>
+
+            <p
+                style="
+                    color:#888888;
+                    font-size:13px;
+                "
+            >
+                Please provide accurate information so patients can
+                contact you when blood is needed.
+            </p>
+
+        </div>
 
 
-        <label>Address</label>
-
-        <textarea name="address"></textarea>
-
-
-        <label>Last Donation Date</label>
-
-        <input type="date"
-               name="last_donation">
+        <form
+            method="POST"
+            action="{{ url_for('register_donor') }}"
+            id="donorForm"
+        >
 
 
-        <button type="submit"
-                class="btn">
-            Register Donor
-        </button>
+            <!-- =========================
+                 SECTION 1
+            ========================== -->
 
-    </form>
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-bottom:20px;
+                "
+            >
 
-</div>
+                <div
+                    style="
+                        width:40px;
+                        height:40px;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        color:#c1121f;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-weight:800;
+                    "
+                >
+                    01
+                </div>
+
+                <div>
+
+                    <h3
+                        style="
+                            font-size:18px;
+                            color:#222222;
+                        "
+                    >
+                        Personal Information
+                    </h3>
+
+                    <p
+                        style="
+                            font-size:12px;
+                            color:#888888;
+                        "
+                    >
+                        Tell us a little about yourself.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <!-- Full Name -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                    <small
+                        style="
+                            color:#999999;
+                            font-size:11px;
+                            margin-top:5px;
+                        "
+                    >
+                        Enter your name as it appears on your ID.
+                    </small>
+
+                </div>
+
+
+                <!-- Age -->
+
+                <div class="form-group">
+
+                    <label for="age">
+                        Age *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="18"
+                        max="65"
+                        placeholder="18 - 65"
+                        required
+                    >
+
+                    <small
+                        style="
+                            color:#999999;
+                            font-size:11px;
+                            margin-top:5px;
+                        "
+                    >
+                        Donor age must be between 18 and 65.
+                    </small>
+
+                </div>
+
+
+                <!-- Gender -->
+
+                <div class="form-group">
+
+                    <label for="gender">
+                        Gender *
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Blood Group -->
+
+                <div class="form-group">
+
+                    <label for="blood_group">
+                        Blood Group *
+                    </label>
+
+                    <select
+                        id="blood_group"
+                        name="blood_group"
+                        required
+                    >
+
+                        <option value="">
+                            Select Blood Group
+                        </option>
+
+                        <option value="A+">
+                            A+
+                        </option>
+
+                        <option value="A-">
+                            A-
+                        </option>
+
+                        <option value="B+">
+                            B+
+                        </option>
+
+                        <option value="B-">
+                            B-
+                        </option>
+
+                        <option value="AB+">
+                            AB+
+                        </option>
+
+                        <option value="AB-">
+                            AB-
+                        </option>
+
+                        <option value="O+">
+                            O+
+                        </option>
+
+                        <option value="O-">
+                            O-
+                        </option>
+
+                    </select>
+
+                    <small
+                        style="
+                            color:#999999;
+                            font-size:11px;
+                            margin-top:5px;
+                        "
+                    >
+                        Please select your correct blood group.
+                    </small>
+
+                </div>
+
+
+                <!-- Phone -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number *
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="10 digit mobile number"
+                        maxlength="10"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="example@email.com"
+                        autocomplete="email"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SECTION 2
+            ========================== -->
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-top:40px;
+                    margin-bottom:20px;
+                    padding-top:30px;
+                    border-top:1px solid #eeeeee;
+                "
+            >
+
+                <div
+                    style="
+                        width:40px;
+                        height:40px;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        color:#c1121f;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-weight:800;
+                    "
+                >
+                    02
+                </div>
+
+                <div>
+
+                    <h3
+                        style="
+                            font-size:18px;
+                            color:#222222;
+                        "
+                    >
+                        Location Information
+                    </h3>
+
+                    <p
+                        style="
+                            font-size:12px;
+                            color:#888888;
+                        "
+                    >
+                        Help nearby patients find you.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <!-- City -->
+
+                <div class="form-group">
+
+                    <label for="city">
+                        City *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        placeholder="Example: Salem"
+                        autocomplete="address-level2"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Last Donation -->
+
+                <div class="form-group">
+
+                    <label for="last_donation">
+                        Last Blood Donation
+                    </label>
+
+                    <input
+                        type="date"
+                        id="last_donation"
+                        name="last_donation"
+                    >
+
+                    <small
+                        style="
+                            color:#999999;
+                            font-size:11px;
+                            margin-top:5px;
+                        "
+                    >
+                        Leave empty if you have never donated.
+                    </small>
+
+                </div>
+
+
+                <!-- Address -->
+
+                <div class="form-group full-width">
+
+                    <label for="address">
+                        Complete Address *
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter your complete address, area, street or locality"
+                        autocomplete="street-address"
+                        required
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SECTION 3
+            ========================== -->
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-top:40px;
+                    margin-bottom:20px;
+                    padding-top:30px;
+                    border-top:1px solid #eeeeee;
+                "
+            >
+
+                <div
+                    style="
+                        width:40px;
+                        height:40px;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        color:#c1121f;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-weight:800;
+                    "
+                >
+                    03
+                </div>
+
+                <div>
+
+                    <h3
+                        style="
+                            font-size:18px;
+                            color:#222222;
+                        "
+                    >
+                        Donation Availability
+                    </h3>
+
+                    <p
+                        style="
+                            font-size:12px;
+                            color:#888888;
+                        "
+                    >
+                        Let patients know whether you are currently available.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Availability Card -->
+
+            <div
+                style="
+                    background:#fff8f8;
+                    border:1px solid #f1d7d9;
+                    border-radius:15px;
+                    padding:20px;
+                "
+            >
+
+                <div
+                    class="checkbox-group"
+                    style="
+                        margin:0;
+                        align-items:flex-start;
+                    "
+                >
+
+                    <input
+                        type="checkbox"
+                        id="available"
+                        name="available"
+                        checked
+                    >
+
+                    <label
+                        for="available"
+                        style="
+                            color:#333333;
+                            line-height:1.5;
+                        "
+                    >
+
+                        <strong
+                            style="
+                                display:block;
+                                color:#8b0000;
+                                margin-bottom:3px;
+                            "
+                        >
+                            I am currently available to donate blood
+                        </strong>
+
+                        <span
+                            style="
+                                display:block;
+                                color:#777777;
+                                font-size:12px;
+                                font-weight:400;
+                            "
+                        >
+                            Keep this enabled if you are currently willing
+                            and available to donate blood.
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SAFETY NOTICE
+            ========================== -->
+
+            <div
+                style="
+                    margin-top:25px;
+                    padding:18px;
+                    background:#f8f9fa;
+                    border:1px solid #eeeeee;
+                    border-radius:14px;
+                "
+            >
+
+                <div
+                    style="
+                        display:flex;
+                        gap:12px;
+                        align-items:flex-start;
+                    "
+                >
+
+                    <div
+                        style="
+                            font-size:22px;
+                        "
+                    >
+                        🛡️
+                    </div>
+
+                    <div>
+
+                        <strong
+                            style="
+                                display:block;
+                                color:#333333;
+                                margin-bottom:5px;
+                                font-size:13px;
+                            "
+                        >
+                            Please provide accurate information
+                        </strong>
+
+                        <p
+                            style="
+                                color:#777777;
+                                font-size:12px;
+                                margin:0;
+                            "
+                        >
+                            Your information helps connect patients with
+                            suitable donors. Please make sure your phone
+                            number, blood group and location details are correct.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SUBMIT BUTTONS
+            ========================== -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="submitButton"
+                >
+                    ❤️ Register as Donor
+                </button>
+
+                <a
+                    href="{{ url_for('donors') }}"
+                    class="btn btn-secondary"
+                >
+                    👥 View Donors
+                </a>
+
+            </div>
+
+
+            <!-- Required Fields -->
+
+            <p
+                style="
+                    text-align:center;
+                    color:#999999;
+                    font-size:11px;
+                    margin-top:18px;
+                "
+            >
+                * Required fields
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         WHY REGISTER
+    ========================== -->
+
+    <div
+        style="
+            max-width:1050px;
+            margin:40px auto 0;
+        "
+    >
+
+        <div
+            style="
+                text-align:center;
+                margin-bottom:25px;
+            "
+        >
+
+            <span
+                style="
+                    color:#c1121f;
+                    font-size:12px;
+                    font-weight:800;
+                    letter-spacing:1.5px;
+                "
+            >
+                WHY BECOME A DONOR?
+            </span>
+
+            <h2
+                style="
+                    font-size:28px;
+                    margin-top:6px;
+                "
+            >
+                Make a Real Difference
+            </h2>
+
+        </div>
+
+
+        <div
+            class="feature-grid"
+        >
+
+            <!-- Card 1 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ❤️
+                </div>
+
+                <h3>
+                    Save Lives
+                </h3>
+
+                <p>
+                    Your donation can help patients who need blood
+                    during emergencies, surgeries and treatments.
+                </p>
+
+            </div>
+
+
+            <!-- Card 2 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🏥
+                </div>
+
+                <h3>
+                    Help Hospitals
+                </h3>
+
+                <p>
+                    Make it easier for hospitals and patients to
+                    identify suitable blood donors nearby.
+                </p>
+
+            </div>
+
+
+            <!-- Card 3 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    👥
+                </div>
+
+                <h3>
+                    Join the Community
+                </h3>
+
+                <p>
+                    Become part of a community of people who are
+                    ready to help others when it matters most.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BOTTOM CTA
+    ========================== -->
+
+    <div
+        style="
+            max-width:1050px;
+            margin:45px auto 0;
+            padding:35px 25px;
+            border-radius:22px;
+            background:#fff0f1;
+            border:1px solid #f2d5d8;
+            text-align:center;
+        "
+    >
+
+        <div
+            style="
+                font-size:35px;
+                margin-bottom:8px;
+            "
+        >
+            🩸
+        </div>
+
+        <h2
+            style="
+                color:#8b0000;
+                font-size:25px;
+                margin-bottom:8px;
+            "
+        >
+            Ready to Help Someone?
+        </h2>
+
+        <p
+            style="
+                color:#777777;
+                font-size:14px;
+                max-width:650px;
+                margin:0 auto 20px;
+            "
+        >
+            Register today and become a potential lifesaver
+            in your community.
+        </p>
+
+        <a
+            href="#donorForm"
+            class="btn btn-primary"
+        >
+            ❤️ Register Now
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RESPONSIVE STYLE
+========================== -->
+
+<style>
+
+@media (max-width: 850px) {
+
+    .page-section > div:first-of-type {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .section-heading h1 {
+        font-size: 32px;
+    }
+
+    .form-container {
+        padding: 25px 18px;
+    }
+
+}
+
+</style>
+
+
+<!-- =========================
+     FORM JAVASCRIPT
+========================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const form =
+            document.getElementById("donorForm");
+
+        const phone =
+            document.getElementById("phone");
+
+        const age =
+            document.getElementById("age");
+
+        const lastDonation =
+            document.getElementById("last_donation");
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+
+        /* =========================
+           PHONE NUMBER
+        ========================== */
+
+        if (phone) {
+
+            phone.addEventListener(
+                "input",
+                function () {
+
+                    this.value =
+                        this.value
+                            .replace(/\D/g, "")
+                            .slice(0, 10);
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           AGE VALIDATION
+        ========================== */
+
+        if (age) {
+
+            age.addEventListener(
+                "input",
+                function () {
+
+                    let value =
+                        parseInt(this.value);
+
+                    if (value > 65) {
+                        this.value = 65;
+                    }
+
+                    if (value < 1) {
+                        this.value = "";
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           LAST DONATION DATE
+        ========================== */
+
+        if (lastDonation) {
+
+            const today =
+                new Date()
+                    .toISOString()
+                    .split("T")[0];
+
+            lastDonation.max = today;
+
+        }
+
+
+        /* =========================
+           FORM SUBMISSION
+        ========================== */
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    const phoneValue =
+                        phone.value.trim();
+
+                    const ageValue =
+                        parseInt(age.value);
+
+                    if (
+                        phoneValue.length !== 10
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please enter a valid 10-digit phone number."
+                        );
+
+                        phone.focus();
+
+                        return;
+                    }
+
+
+                    if (
+                        isNaN(ageValue) ||
+                        ageValue < 18 ||
+                        ageValue > 65
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Donor age must be between 18 and 65."
+                        );
+
+                        age.focus();
+
+                        return;
+                    }
+
+
+                    submitButton.disabled = true;
+
+                    submitButton.classList.add(
+                        "loading"
+                    );
+
+                    submitButton.innerHTML =
+                        "Registering...";
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
 
 {% endblock %}

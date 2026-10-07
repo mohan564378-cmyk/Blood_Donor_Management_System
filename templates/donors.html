@@ -1,249 +1,391 @@
 {% extends "base.html" %}
 
-{% block title %}
-Find Blood Donors - Blood Donor Management System
-{% endblock %}
+{% block title %}Find Blood Donors - Blood Donor Management System{% endblock %}
 
 {% block content %}
 
-<div class="page-title">
-    <h1>🩸 Find Blood Donors</h1>
-    <p>Search for available blood donors by name, blood group and location.</p>
-</div>
+<section class="page-section">
 
-<div class="search-box">
+    <div class="section-heading">
 
-    <form method="GET" action="{{ url_for('donors') }}" class="search-form">
+        <span>DONOR DIRECTORY</span>
 
-        <input
-            type="text"
-            name="search"
-            placeholder="🔎 Search name, phone or city"
-            value="{{ search }}"
+        <h1>Find Blood Donors</h1>
+
+        <p>
+            Search available blood donors by name, blood group,
+            city and availability.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH & FILTER -->
+
+    <div class="filter-card">
+
+        <form
+            method="GET"
+            action="{{ url_for('donors') }}"
+            class="filter-form"
         >
 
-        <select name="blood_group">
+            <!-- SEARCH -->
 
-            <option value="">All Blood Groups</option>
+            <div class="form-group">
 
-            <option value="A+" {% if selected_blood_group == "A+" %}selected{% endif %}>
-                A+
-            </option>
+                <label for="search">
+                    Search
+                </label>
 
-            <option value="A-" {% if selected_blood_group == "A-" %}selected{% endif %}>
-                A-
-            </option>
+                <input
+                    type="text"
+                    id="search"
+                    name="search"
+                    value="{{ search }}"
+                    placeholder="Name, phone or city"
+                >
 
-            <option value="B+" {% if selected_blood_group == "B+" %}selected{% endif %}>
-                B+
-            </option>
+            </div>
 
-            <option value="B-" {% if selected_blood_group == "B-" %}selected{% endif %}>
-                B-
-            </option>
 
-            <option value="AB+" {% if selected_blood_group == "AB+" %}selected{% endif %}>
-                AB+
-            </option>
+            <!-- BLOOD GROUP -->
 
-            <option value="AB-" {% if selected_blood_group == "AB-" %}selected{% endif %}>
-                AB-
-            </option>
+            <div class="form-group">
 
-            <option value="O+" {% if selected_blood_group == "O+" %}selected{% endif %}>
-                O+
-            </option>
+                <label for="blood_group">
+                    Blood Group
+                </label>
 
-            <option value="O-" {% if selected_blood_group == "O-" %}selected{% endif %}>
-                O-
-            </option>
+                <select
+                    id="blood_group"
+                    name="blood_group"
+                >
 
-        </select>
+                    <option value="">
+                        All Blood Groups
+                    </option>
 
-        <select name="city">
+                    <option value="A+" {% if blood_group == "A+" %}selected{% endif %}>
+                        A+
+                    </option>
 
-            <option value="">📍 All Locations</option>
+                    <option value="A-" {% if blood_group == "A-" %}selected{% endif %}>
+                        A-
+                    </option>
 
-            {% for location in cities %}
+                    <option value="B+" {% if blood_group == "B+" %}selected{% endif %}>
+                        B+
+                    </option>
 
-            <option
-                value="{{ location['city'] }}"
-                {% if selected_city == location['city'] %}selected{% endif %}
-            >
-                📍 {{ location['city'] }}
-            </option>
+                    <option value="B-" {% if blood_group == "B-" %}selected{% endif %}>
+                        B-
+                    </option>
 
-            {% endfor %}
+                    <option value="AB+" {% if blood_group == "AB+" %}selected{% endif %}>
+                        AB+
+                    </option>
 
-        </select>
+                    <option value="AB-" {% if blood_group == "AB-" %}selected{% endif %}>
+                        AB-
+                    </option>
 
-        <select name="availability">
+                    <option value="O+" {% if blood_group == "O+" %}selected{% endif %}>
+                        O+
+                    </option>
 
-            <option value="">All Status</option>
+                    <option value="O-" {% if blood_group == "O-" %}selected{% endif %}>
+                        O-
+                    </option>
 
-            <option
-                value="available"
-                {% if selected_availability == "available" %}selected{% endif %}
-            >
-                🟢 Available
-            </option>
+                </select>
 
-            <option
-                value="unavailable"
-                {% if selected_availability == "unavailable" %}selected{% endif %}
-            >
-                🔴 Unavailable
-            </option>
+            </div>
 
-        </select>
 
-        <button type="submit" class="btn btn-primary">
-            🔎 Search
-        </button>
+            <!-- CITY -->
 
-        <a href="{{ url_for('donors') }}" class="btn btn-secondary">
-            Reset
+            <div class="form-group">
+
+                <label for="city">
+                    City
+                </label>
+
+                <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value="{{ city }}"
+                    placeholder="Example: Salem"
+                >
+
+            </div>
+
+
+            <!-- AVAILABILITY -->
+
+            <div class="form-group">
+
+                <label for="availability">
+                    Availability
+                </label>
+
+                <select
+                    id="availability"
+                    name="availability"
+                >
+
+                    <option value="">
+                        All Donors
+                    </option>
+
+                    <option
+                        value="available"
+                        {% if availability == "available" %}selected{% endif %}
+                    >
+                        Available
+                    </option>
+
+                    <option
+                        value="unavailable"
+                        {% if availability == "unavailable" %}selected{% endif %}
+                    >
+                        Not Available
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="filter-buttons">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Search
+                </button>
+
+                <a
+                    href="{{ url_for('donors') }}"
+                    class="btn btn-secondary"
+                >
+                    Clear
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- RESULT HEADER -->
+
+    <div
+        style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:15px;
+            margin-bottom:20px;
+            flex-wrap:wrap;
+        "
+    >
+
+        <div>
+
+            <h2 style="font-size:24px;">
+                Available Donors
+            </h2>
+
+            <p style="color:#777;font-size:14px;">
+                {{ donors|length }} donor(s) found
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('register_donor') }}"
+            class="btn btn-primary"
+        >
+            &#10084; Become a Donor
         </a>
 
-    </form>
-
-</div>
+    </div>
 
 
-{% if donors %}
+    {% if donors %}
 
-<div class="table-container">
+    <!-- DONOR CARDS -->
 
-    <table>
+    <div class="donor-grid">
 
-        <thead>
+        {% for donor in donors %}
 
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Blood Group</th>
-                <th>Phone</th>
-                <th>📍 Location</th>
-                <th>Status</th>
+        <div class="donor-card">
 
-                {% if session.get("admin") %}
-                <th>Actions</th>
-                {% endif %}
+            <!-- CARD HEADER -->
 
-            </tr>
+            <div class="donor-header">
 
-        </thead>
+                <div>
 
-        <tbody>
+                    <h3>
+                        {{ donor.name }}
+                    </h3>
 
-            {% for donor in donors %}
+                    <p>
+                        {{ donor.gender }} &bull;
+                        {{ donor.age }} years
+                    </p>
 
-            <tr>
+                </div>
 
-                <td>{{ donor["id"] }}</td>
 
-                <td>
-                    <strong>{{ donor["name"] }}</strong>
-                </td>
+                <div class="blood-badge">
 
-                <td>{{ donor["age"] }}</td>
+                    {{ donor.blood_group }}
 
-                <td>{{ donor["gender"] }}</td>
+                </div>
 
-                <td>
-                    <strong>{{ donor["blood_group"] }}</strong>
-                </td>
+            </div>
 
-                <td>{{ donor["phone"] }}</td>
 
-                <td>
-                    📍 {{ donor["city"] }}
-                </td>
+            <!-- AVAILABILITY -->
 
-                <td>
+            <div style="margin-bottom:15px;">
 
-                    {% if donor["available"] %}
+                {% if donor.available %}
 
-                    <span class="status status-available">
-                        🟢 Available
+                    <span class="status available">
+                        Available to Donate
                     </span>
 
-                    {% else %}
+                {% else %}
 
-                    <span class="status status-unavailable">
-                        🔴 Unavailable
+                    <span class="status unavailable">
+                        Currently Unavailable
                     </span>
-
-                    {% endif %}
-
-                </td>
-
-                {% if session.get("admin") %}
-
-                <td>
-
-                    <div class="table-actions">
-
-                        <a
-                            href="{{ url_for('edit_donor', donor_id=donor['id']) }}"
-                            class="btn btn-primary"
-                        >
-                            ✏️ Edit
-                        </a>
-
-                        <a
-                            href="{{ url_for('toggle_availability', donor_id=donor['id']) }}"
-                            class="btn btn-warning"
-                        >
-                            {% if donor["available"] %}
-                            Make Unavailable
-                            {% else %}
-                            Make Available
-                            {% endif %}
-                        </a>
-
-                        <a
-                            href="{{ url_for('delete_donor', donor_id=donor['id']) }}"
-                            class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete this donor?');"
-                        >
-                            🗑️ Delete
-                        </a>
-
-                    </div>
-
-                </td>
 
                 {% endif %}
 
-            </tr>
+            </div>
 
-            {% endfor %}
 
-        </tbody>
+            <!-- DETAILS -->
 
-    </table>
+            <div class="donor-details">
 
-</div>
+                <p>
+                    <strong>City:</strong>
+                    {{ donor.city }}
+                </p>
 
-{% else %}
+                <p>
+                    <strong>Address:</strong>
+                    {{ donor.address }}
+                </p>
 
-<div class="empty-message">
+                <p>
+                    <strong>Phone:</strong>
+                    {{ donor.phone }}
+                </p>
 
-    <h2>🔍 No Donors Found</h2>
+                {% if donor.email %}
 
-    <p>
-        No donor matches your selected blood group or location.
-    </p>
+                <p>
+                    <strong>Email:</strong>
+                    {{ donor.email }}
+                </p>
 
-    <a href="{{ url_for('donors') }}" class="btn btn-primary">
-        Show All Donors
-    </a>
+                {% endif %}
 
-</div>
+                {% if donor.last_donation %}
 
-{% endif %}
+                <p>
+                    <strong>Last Donation:</strong>
+                    {{ donor.last_donation }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            {% if session.get("admin") %}
+
+            <div class="donor-actions">
+
+                <a
+                    href="{{ url_for('edit_donor', donor_id=donor.id) }}"
+                    class="btn btn-primary btn-small"
+                >
+                    Edit
+                </a>
+
+                <a
+                    href="{{ url_for('toggle_availability', donor_id=donor.id) }}"
+                    class="btn btn-warning btn-small"
+                >
+                    Toggle Status
+                </a>
+
+                <a
+                    href="{{ url_for('delete_donor', donor_id=donor.id) }}"
+                    class="btn btn-danger btn-small delete-link"
+                >
+                    Delete
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+    <!-- EMPTY -->
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            &#128567;
+        </div>
+
+        <h3>
+            No Donors Found
+        </h3>
+
+        <p>
+            Try changing your search or filter options.
+        </p>
+
+        <br>
+
+        <a
+            href="{{ url_for('register_donor') }}"
+            class="btn btn-primary"
+        >
+            &#10084; Become the First Donor
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
 
 {% endblock %}

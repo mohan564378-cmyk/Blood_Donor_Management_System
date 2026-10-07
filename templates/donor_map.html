@@ -1,0 +1,548 @@
+{% extends "base.html" %}
+
+{% block title %}Donor Map - Blood Donor Management System{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <div class="section-heading">
+
+        <span>DONOR LOCATION</span>
+
+        <h1>Find Blood Donors Near You</h1>
+
+        <p>
+            Search available blood donors by blood group, city and area.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         FILTER
+    ========================== -->
+
+    <div class="filter-card">
+
+        <form method="GET"
+              action="{{ url_for('donor_map') }}"
+              class="filter-form">
+
+            <div class="form-group">
+
+                <label for="blood_group">
+                    Blood Group
+                </label>
+
+                <select
+                    id="blood_group"
+                    name="blood_group">
+
+                    <option value="">
+                        All Blood Groups
+                    </option>
+
+                    <option value="A+"
+                        {% if blood_group == "A+" %}selected{% endif %}>
+                        A+
+                    </option>
+
+                    <option value="A-"
+                        {% if blood_group == "A-" %}selected{% endif %}>
+                        A-
+                    </option>
+
+                    <option value="B+"
+                        {% if blood_group == "B+" %}selected{% endif %}>
+                        B+
+                    </option>
+
+                    <option value="B-"
+                        {% if blood_group == "B-" %}selected{% endif %}>
+                        B-
+                    </option>
+
+                    <option value="AB+"
+                        {% if blood_group == "AB+" %}selected{% endif %}>
+                        AB+
+                    </option>
+
+                    <option value="AB-"
+                        {% if blood_group == "AB-" %}selected{% endif %}>
+                        AB-
+                    </option>
+
+                    <option value="O+"
+                        {% if blood_group == "O+" %}selected{% endif %}>
+                        O+
+                    </option>
+
+                    <option value="O-"
+                        {% if blood_group == "O-" %}selected{% endif %}>
+                        O-
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="city">
+                    City
+                </label>
+
+                <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value="{{ city }}"
+                    placeholder="Example: Salem">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="area">
+                    Area
+                </label>
+
+                <input
+                    type="text"
+                    id="area"
+                    name="area"
+                    value="{{ area }}"
+                    placeholder="Example: Komarapalayam">
+
+            </div>
+
+
+            <div class="filter-buttons">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    Search
+
+                </button>
+
+                <a
+                    href="{{ url_for('donor_map') }}"
+                    class="btn btn-secondary">
+
+                    Clear
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         MAP + DONOR LIST
+    ========================== -->
+
+    <div class="map-layout">
+
+
+        <!-- =====================
+             MAP
+        ====================== -->
+
+        <div class="map-container">
+
+            <div
+                id="donorMap">
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             DONOR LIST
+        ====================== -->
+
+        <div class="map-donor-list">
+
+            <div class="map-list-header">
+
+                <h2>
+                    Available Donors
+                </h2>
+
+                <span>
+                    {{ donors|length }}
+                </span>
+
+            </div>
+
+
+            {% if donors %}
+
+                {% for donor in donors %}
+
+                <div
+                    class="map-donor-card"
+                    onclick="focusDonor(
+                        {{ donor.lat }},
+                        {{ donor.lng }}
+                    )">
+
+
+                    <div class="map-blood-badge">
+
+                        {{ donor.blood_group }}
+
+                    </div>
+
+
+                    <div class="map-donor-info">
+
+                        <h3>
+                            {{ donor.name }}
+                        </h3>
+
+                        <p>
+                            {{ donor.blood_group }}
+                        </p>
+
+                        <small>
+                            {{ donor.city }}
+                            -
+                            {{ donor.address }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state small">
+
+                    <div class="empty-icon">
+                        &#128567;
+                    </div>
+
+                    <h3>
+                        No Donors Found
+                    </h3>
+
+                    <p>
+                        Try another blood group,
+                        city or area.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LEAFLET CSS
+===================================================== -->
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+
+<!-- =====================================================
+     LEAFLET JAVASCRIPT
+===================================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<script>
+
+    /* =========================================
+       DONOR DATA FROM FLASK
+    ========================================= */
+
+    const donors = {{ donors | tojson }};
+
+
+    /* =========================================
+       DEFAULT MAP LOCATION
+       Tamil Nadu
+    ========================================= */
+
+    let defaultLatitude = 11.1271;
+    let defaultLongitude = 78.6569;
+
+    let defaultZoom = 7;
+
+
+    /* =========================================
+       CREATE MAP
+    ========================================= */
+
+    const map = L.map("donorMap", {
+        zoomControl: true,
+        scrollWheelZoom: true
+    }).setView(
+        [
+            defaultLatitude,
+            defaultLongitude
+        ],
+        defaultZoom
+    );
+
+
+    /* =========================================
+       OPENSTREETMAP
+    ========================================= */
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 19,
+
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+        }
+    ).addTo(map);
+
+
+    /* =========================================
+       CUSTOM BLOOD MARKER
+    ========================================= */
+
+    function createBloodIcon() {
+
+        return L.divIcon({
+
+            className:
+                "custom-blood-marker",
+
+            html:
+                '<div class="blood-marker">&#10084;</div>',
+
+            iconSize: [
+                42,
+                42
+            ],
+
+            iconAnchor: [
+                21,
+                42
+            ],
+
+            popupAnchor: [
+                0,
+                -42
+            ]
+
+        });
+
+    }
+
+
+    /* =========================================
+       MARKERS
+    ========================================= */
+
+    const markers = [];
+
+
+    donors.forEach(function(donor) {
+
+        const marker = L.marker(
+            [
+                donor.lat,
+                donor.lng
+            ],
+            {
+                icon: createBloodIcon()
+            }
+        );
+
+
+        /* ===============================
+           POPUP
+        =============================== */
+
+        const popupHTML = `
+
+            <div class="donor-popup">
+
+                <h3>
+                    ${donor.name}
+                </h3>
+
+                <div class="popup-blood">
+                    ${donor.blood_group}
+                </div>
+
+                <p>
+                    <strong>City:</strong>
+                    ${donor.city}
+                </p>
+
+                <p>
+                    <strong>Address:</strong>
+                    ${donor.address}
+                </p>
+
+                <span class="status available">
+                    Available
+                </span>
+
+            </div>
+
+        `;
+
+
+        marker
+            .bindPopup(popupHTML)
+            .addTo(map);
+
+
+        markers.push(marker);
+
+    });
+
+
+    /* =========================================
+       AUTO FIT MARKERS
+    ========================================= */
+
+    if (markers.length > 0) {
+
+        const group =
+            L.featureGroup(markers);
+
+        map.fitBounds(
+            group.getBounds(),
+            {
+                padding: [
+                    40,
+                    40
+                ],
+
+                maxZoom: 13
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       FOCUS DONOR
+    ========================================= */
+
+    function focusDonor(lat, lng) {
+
+        map.setView(
+            [
+                lat,
+                lng
+            ],
+            15,
+            {
+                animate: true
+            }
+        );
+
+
+        let nearestMarker = null;
+
+        let smallestDistance =
+            Infinity;
+
+
+        markers.forEach(function(marker) {
+
+            const position =
+                marker.getLatLng();
+
+
+            const distance =
+                Math.pow(
+                    position.lat - lat,
+                    2
+                )
+                +
+                Math.pow(
+                    position.lng - lng,
+                    2
+                );
+
+
+            if (
+                distance <
+                smallestDistance
+            ) {
+
+                smallestDistance =
+                    distance;
+
+                nearestMarker =
+                    marker;
+
+            }
+
+        });
+
+
+        if (nearestMarker) {
+
+            setTimeout(
+                function() {
+
+                    nearestMarker.openPopup();
+
+                },
+                300
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       FIX MAP SIZE
+    ========================================= */
+
+    setTimeout(
+        function() {
+
+            map.invalidateSize();
+
+        },
+        500
+    );
+
+
+    window.addEventListener(
+        "resize",
+        function() {
+
+            map.invalidateSize();
+
+        }
+    );
+
+</script>
+
+{% endblock %}

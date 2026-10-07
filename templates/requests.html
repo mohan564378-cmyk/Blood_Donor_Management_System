@@ -1,137 +1,223 @@
 {% extends "base.html" %}
 
-{% block title %}Blood Requests{% endblock %}
+{% block title %}Blood Requests - Blood Donor Management System{% endblock %}
 
 {% block content %}
 
-<div class="page-container">
+<section class="page-section">
 
-    <h1>🩸 Blood Requests</h1>
+    <div class="section-heading">
 
+        <span>EMERGENCY BLOOD SUPPORT</span>
 
-    <div class="table-container">
+        <h1>Blood Requests</h1>
 
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-                    <th>Patient</th>
-                    <th>Blood Group</th>
-                    <th>Units</th>
-                    <th>Hospital</th>
-                    <th>City</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-
-                    {% if session.get("admin") %}
-                        <th>Actions</th>
-                    {% endif %}
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                {% for req in requests %}
-
-                <tr>
-
-                    <td>{{ req.id }}</td>
-
-                    <td>{{ req.patient_name }}</td>
-
-                    <td>
-                        <strong class="blood">
-                            {{ req.blood_group }}
-                        </strong>
-                    </td>
-
-                    <td>{{ req.units }}</td>
-
-                    <td>{{ req.hospital }}</td>
-
-                    <td>{{ req.city }}</td>
-
-                    <td>{{ req.phone }}</td>
-
-                    <td>
-
-                        {% if req.status == "Pending" %}
-
-                            <span class="pending">
-                                Pending
-                            </span>
-
-                        {% elif req.status == "Approved" %}
-
-                            <span class="available">
-                                Approved
-                            </span>
-
-                        {% else %}
-
-                            <span class="unavailable">
-                                Rejected
-                            </span>
-
-                        {% endif %}
-
-                    </td>
-
-
-                    {% if session.get("admin") %}
-
-                    <td>
-
-                        {% if req.status == "Pending" %}
-
-                        <a class="small-btn"
-                           href="{{ url_for('approve_request', request_id=req.id) }}">
-                            Approve
-                        </a>
-
-                        <a class="small-btn danger-btn"
-                           href="{{ url_for('reject_request', request_id=req.id) }}">
-                            Reject
-                        </a>
-
-                        {% endif %}
-
-                        <a class="small-btn danger-btn"
-                           href="{{ url_for('delete_request', request_id=req.id) }}"
-                           onclick="return confirm('Delete this request?')">
-                            Delete
-                        </a>
-
-                    </td>
-
-                    {% endif %}
-
-                </tr>
-
-                {% else %}
-
-                <tr>
-
-                    <td colspan="9">
-                        No blood requests found.
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
+        <p>
+            View blood requirements and help connect patients
+            with suitable donors.
+        </p>
 
     </div>
 
-</div>
+
+    <!-- TOP ACTION -->
+
+    <div
+        style="
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        "
+    >
+
+        <a
+            href="{{ url_for('add_request') }}"
+            class="btn btn-primary"
+        >
+            &#10084; Create Blood Request
+        </a>
+
+    </div>
+
+
+    {% if requests %}
+
+        <!-- REQUEST CARDS -->
+
+        <div class="donor-grid">
+
+            {% for req in requests %}
+
+            <div class="donor-card">
+
+                <!-- HEADER -->
+
+                <div class="donor-header">
+
+                    <div>
+
+                        <h3>
+                            {{ req.patient_name }}
+                        </h3>
+
+                        <p>
+                            Request #{{ req.id }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="blood-badge">
+
+                        {{ req.blood_group }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div style="margin-bottom: 15px;">
+
+                    {% if req.status == "Pending" %}
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+                    {% elif req.status == "Approved" %}
+
+                        <span class="status approved">
+                            Approved
+                        </span>
+
+                    {% else %}
+
+                        <span class="status rejected">
+                            Rejected
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DETAILS -->
+
+                <div class="donor-details">
+
+                    <p>
+                        <strong>Blood Group:</strong>
+                        {{ req.blood_group }}
+                    </p>
+
+                    <p>
+                        <strong>Units Required:</strong>
+                        {{ req.units }}
+                    </p>
+
+                    <p>
+                        <strong>Hospital:</strong>
+                        {{ req.hospital }}
+                    </p>
+
+                    <p>
+                        <strong>City:</strong>
+                        {{ req.city }}
+                    </p>
+
+                    <p>
+                        <strong>Contact:</strong>
+                        {{ req.phone }}
+                    </p>
+
+                    {% if req.reason %}
+
+                    <p>
+                        <strong>Reason:</strong>
+                        {{ req.reason }}
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ADMIN ACTIONS -->
+
+                {% if session.get("admin") %}
+
+                <div class="donor-actions">
+
+                    {% if req.status == "Pending" %}
+
+                    <a
+                        href="{{ url_for('approve_request', request_id=req.id) }}"
+                        class="btn btn-success btn-small"
+                    >
+                        Approve
+                    </a>
+
+                    <a
+                        href="{{ url_for('reject_request', request_id=req.id) }}"
+                        class="btn btn-danger btn-small"
+                    >
+                        Reject
+                    </a>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{{ url_for('delete_request', request_id=req.id) }}"
+                        class="btn btn-secondary btn-small delete-link"
+                    >
+                        Delete
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                &#128567;
+            </div>
+
+            <h3>
+                No Blood Requests
+            </h3>
+
+            <p>
+                There are currently no blood requests.
+                Create a request when blood is needed.
+            </p>
+
+            <br>
+
+            <a
+                href="{{ url_for('add_request') }}"
+                class="btn btn-primary"
+            >
+                &#10084; Create First Request
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
 
 {% endblock %}

@@ -1,84 +1,189 @@
 {% extends "base.html" %}
 
-{% block title %}Blood Request{% endblock %}
+{% block title %}
+Blood Request
+{% endblock %}
 
 {% block content %}
 
-<div class="form-container">
+<section class="page-section">
 
-    <h1>🩸 Blood Request</h1>
+    <div class="form-container">
 
-    <form method="POST">
+        <div class="form-header">
 
-        <label>Patient Name</label>
+            <div class="form-icon">
+                &#9829;
+            </div>
 
-        <input type="text"
-               name="patient_name"
-               required>
+            <h1>
+                Blood Request
+            </h1>
 
+            <p>
+                Submit a request for blood assistance.
+            </p>
 
-        <label>Blood Group Required</label>
-
-        <select name="blood_group"
-                required>
-
-            <option value="">Select Blood Group</option>
-
-            <option>A+</option>
-            <option>A-</option>
-            <option>B+</option>
-            <option>B-</option>
-            <option>AB+</option>
-            <option>AB-</option>
-            <option>O+</option>
-            <option>O-</option>
-
-        </select>
+        </div>
 
 
-        <label>Units Required</label>
+        <form method="POST"
+              class="donor-form">
 
-        <input type="number"
-               name="units"
-               min="1"
-               max="20"
-               required>
+            <div class="form-grid">
 
+                <div class="form-group">
 
-        <label>Hospital Name</label>
+                    <label>
+                        Patient Name
+                    </label>
 
-        <input type="text"
-               name="hospital"
-               required>
+                    <input type="text"
+                           name="patient_name"
+                           placeholder="Enter patient name"
+                           required>
 
-
-        <label>City</label>
-
-        <input type="text"
-               name="city"
-               required>
+                </div>
 
 
-        <label>Contact Phone</label>
+                <div class="form-group">
 
-        <input type="tel"
-               name="phone"
-               required>
+                    <label>
+                        Blood Group
+                    </label>
+
+                    <select name="blood_group"
+                            required>
+
+                        <option value="">
+                            Select Blood Group
+                        </option>
+
+                        <option value="A+">
+                            A+
+                        </option>
+
+                        <option value="A-">
+                            A-
+                        </option>
+
+                        <option value="B+">
+                            B+
+                        </option>
+
+                        <option value="B-">
+                            B-
+                        </option>
+
+                        <option value="AB+">
+                            AB+
+                        </option>
+
+                        <option value="AB-">
+                            AB-
+                        </option>
+
+                        <option value="O+">
+                            O+
+                        </option>
+
+                        <option value="O-">
+                            O-
+                        </option>
+
+                    </select>
+
+                </div>
 
 
-        <label>Reason</label>
+                <div class="form-group">
 
-        <textarea name="reason"
-                  placeholder="Reason for blood requirement"></textarea>
+                    <label>
+                        Required Units
+                    </label>
+
+                    <input type="number"
+                           name="units"
+                           min="1"
+                           max="20"
+                           placeholder="Example: 2"
+                           required>
+
+                </div>
 
 
-        <button class="btn"
-                type="submit">
-            Submit Blood Request
-        </button>
+                <div class="form-group">
 
-    </form>
+                    <label>
+                        Hospital
+                    </label>
 
-</div>
+                    <input type="text"
+                           name="hospital"
+                           placeholder="Hospital name"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        City
+                    </label>
+
+                    <input type="text"
+                           name="city"
+                           placeholder="Hospital city"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Contact Phone
+                    </label>
+
+                    <input type="tel"
+                           name="phone"
+                           placeholder="Contact number"
+                           required>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Reason / Additional Information
+                    </label>
+
+                    <textarea name="reason"
+                              rows="5"
+                              placeholder="Enter additional information"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-submit">
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Submit Blood Request
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
 
 {% endblock %}

@@ -1,110 +1,242 @@
 {% extends "base.html" %}
 
-{% block title %}Edit Donor{% endblock %}
+{% block title %}
+Donor Map
+{% endblock %}
 
 {% block content %}
 
-<div class="form-container">
+<section class="page-section">
 
-    <h1>✏️ Edit Donor</h1>
+    <div class="section-heading">
 
-    <form method="POST">
+        <span>
+            BLOOD DONOR LOCATION
+        </span>
 
-        <label>Name</label>
+        <h1>
+            Find Donors Near You
+        </h1>
 
-        <input type="text"
-               name="name"
-               value="{{ donor.name }}"
-               required>
+        <p>
+            Search available blood donors by blood group,
+            city and area.
+        </p>
 
-
-        <label>Age</label>
-
-        <input type="number"
-               name="age"
-               value="{{ donor.age }}"
-               required>
+    </div>
 
 
-        <label>Gender</label>
+    <div class="filter-card">
 
-        <select name="gender">
+        <form method="GET"
+              action="{{ url_for('donor_map') }}"
+              class="filter-form">
 
-            <option {% if donor.gender == "Male" %}selected{% endif %}>
-                Male
-            </option>
+            <div class="form-group">
 
-            <option {% if donor.gender == "Female" %}selected{% endif %}>
-                Female
-            </option>
+                <label>
+                    Blood Group
+                </label>
 
-            <option {% if donor.gender == "Other" %}selected{% endif %}>
-                Other
-            </option>
+                <select name="blood_group">
 
-        </select>
+                    <option value="">
+                        All Blood Groups
+                    </option>
 
+                    <option value="A+"
+                        {% if blood_group == "A+" %}selected{% endif %}>
+                        A+
+                    </option>
 
-        <label>Blood Group</label>
+                    <option value="A-"
+                        {% if blood_group == "A-" %}selected{% endif %}>
+                        A-
+                    </option>
 
-        <select name="blood_group">
+                    <option value="B+"
+                        {% if blood_group == "B+" %}selected{% endif %}>
+                        B+
+                    </option>
 
-            {% for group in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
+                    <option value="B-"
+                        {% if blood_group == "B-" %}selected{% endif %}>
+                        B-
+                    </option>
 
-                <option value="{{ group }}"
-                    {% if donor.blood_group == group %}selected{% endif %}>
+                    <option value="AB+"
+                        {% if blood_group == "AB+" %}selected{% endif %}>
+                        AB+
+                    </option>
 
-                    {{ group }}
+                    <option value="AB-"
+                        {% if blood_group == "AB-" %}selected{% endif %}>
+                        AB-
+                    </option>
 
-                </option>
+                    <option value="O+"
+                        {% if blood_group == "O+" %}selected{% endif %}>
+                        O+
+                    </option>
 
-            {% endfor %}
+                    <option value="O-"
+                        {% if blood_group == "O-" %}selected{% endif %}>
+                        O-
+                    </option>
 
-        </select>
+                </select>
 
-
-        <label>Phone</label>
-
-        <input type="tel"
-               name="phone"
-               value="{{ donor.phone }}"
-               required>
-
-
-        <label>Email</label>
-
-        <input type="email"
-               name="email"
-               value="{{ donor.email or '' }}">
-
-
-        <label>City</label>
-
-        <input type="text"
-               name="city"
-               value="{{ donor.city }}"
-               required>
-
-
-        <label>Address</label>
-
-        <textarea name="address">{{ donor.address or '' }}</textarea>
+            </div>
 
 
-        <label>Last Donation</label>
+            <div class="form-group">
 
-        <input type="date"
-               name="last_donation"
-               value="{{ donor.last_donation or '' }}">
+                <label>
+                    City
+                </label>
+
+                <input type="text"
+                       name="city"
+                       value="{{ city }}"
+                       placeholder="Example: Erode">
+
+            </div>
 
 
-        <button class="btn"
-                type="submit">
-            Update Donor
-        </button>
+            <div class="form-group">
 
-    </form>
+                <label>
+                    Area
+                </label>
 
-</div>
+                <input type="text"
+                       name="area"
+                       value="{{ area }}"
+                       placeholder="Example: Komarapalayam">
+
+            </div>
+
+
+            <div class="filter-buttons">
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Search Map
+
+                </button>
+
+                <a href="{{ url_for('donor_map') }}"
+                   class="btn btn-secondary">
+
+                    Clear
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="map-layout">
+
+        <div class="map-container">
+
+            <div id="donorMap">
+
+                <div class="map-placeholder">
+
+                    <div class="map-placeholder-icon">
+                        &#128205;
+                    </div>
+
+                    <h2>
+                        Donor Locations
+                    </h2>
+
+                    <p>
+                        Available donor locations are shown below.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="map-donor-list">
+
+            <div class="map-list-header">
+
+                <h2>
+                    Available Donors
+                </h2>
+
+                <span>
+                    {{ donors|length }}
+                </span>
+
+            </div>
+
+
+            {% if donors %}
+
+                {% for donor in donors %}
+
+                    <div class="map-donor-card"
+                         data-lat="{{ donor.lat }}"
+                         data-lng="{{ donor.lng }}">
+
+                        <div class="map-blood-badge">
+
+                            {{ donor.blood_group }}
+
+                        </div>
+
+
+                        <div class="map-donor-info">
+
+                            <h3>
+                                {{ donor.name }}
+                            </h3>
+
+                            <p>
+                                {{ donor.city }}
+                            </p>
+
+                            <small>
+                                {{ donor.address }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state small">
+
+                    <h3>
+                        No donors found
+                    </h3>
+
+                    <p>
+                        Try another search.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

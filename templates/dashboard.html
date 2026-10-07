@@ -1,143 +1,285 @@
 {% extends "base.html" %}
 
 {% block title %}
-Admin Dashboard - Blood Donor Management System
+Admin Dashboard
 {% endblock %}
 
 {% block content %}
 
-<div class="dashboard-page">
-
-    <!-- =====================================================
-         DASHBOARD HEADER
-    ====================================================== -->
+<section class="page-section">
 
     <div class="dashboard-header">
-        <h1>🩸 Admin Dashboard</h1>
-        <p>Welcome Administrator!</p>
-    </div>
 
+        <div>
 
-    <!-- =====================================================
-         STATISTICS CARDS
-    ====================================================== -->
+            <span>
+                ADMINISTRATION
+            </span>
 
-    <div class="stats">
+            <h1>
+                Dashboard
+            </h1>
 
-        <!-- Total Donors -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                👥
-            </div>
+            <p>
+                Manage donors and blood requests.
+            </p>
 
-            <h2>{{ total_donors }}</h2>
-
-            <p>Total Donors</p>
         </div>
 
 
-        <!-- Available Donors -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                🟢
-            </div>
+        <div class="dashboard-actions">
 
-            <h2>{{ available_donors }}</h2>
+            <a href="{{ url_for('register_donor') }}"
+               class="btn btn-primary">
 
-            <p>Available Donors</p>
-        </div>
+                Add Donor
 
+            </a>
 
-        <!-- Unavailable Donors -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                🔴
-            </div>
+            <a href="{{ url_for('add_request') }}"
+               class="btn btn-secondary">
 
-            <h2>{{ unavailable_donors }}</h2>
+                New Request
 
-            <p>Unavailable Donors</p>
-        </div>
+            </a>
 
-
-        <!-- Total Requests -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                🩸
-            </div>
-
-            <h2>{{ total_requests }}</h2>
-
-            <p>Total Requests</p>
-        </div>
-
-
-        <!-- Pending Requests -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                ⏳
-            </div>
-
-            <h2>{{ pending_requests }}</h2>
-
-            <p>Pending Requests</p>
-        </div>
-
-
-        <!-- Approved Requests -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                ✅
-            </div>
-
-            <h2>{{ approved_requests }}</h2>
-
-            <p>Approved Requests</p>
-        </div>
-
-
-        <!-- Rejected Requests -->
-        <div class="stat-card">
-            <div class="stat-icon">
-                ❌
-            </div>
-
-            <h2>{{ rejected_requests }}</h2>
-
-            <p>Rejected Requests</p>
         </div>
 
     </div>
 
 
-    <!-- =====================================================
-         DASHBOARD ACTIONS
-    ====================================================== -->
+    <div class="dashboard-grid">
 
-    <div class="dashboard-actions">
+        <div class="dashboard-card">
 
-        <a href="{{ url_for('donors') }}"
-           class="btn btn-primary">
-            👥 Manage Donors
-        </a>
+            <div class="dashboard-card-icon">
+                &#128101;
+            </div>
 
-        <a href="{{ url_for('requests') }}"
-           class="btn btn-danger">
-            🩸 Manage Requests
-        </a>
+            <div>
 
-        <a href="{{ url_for('register_donor') }}"
-           class="btn btn-success">
-            ➕ Add Donor
-        </a>
+                <span>
+                    Total Donors
+                </span>
 
-        <a href="{{ url_for('add_request') }}"
-           class="btn btn-warning">
-            ➕ Blood Request
-        </a>
+                <h2>
+                    {{ total_donors }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card success-card">
+
+            <div class="dashboard-card-icon">
+                &#10003;
+            </div>
+
+            <div>
+
+                <span>
+                    Available Donors
+                </span>
+
+                <h2>
+                    {{ available_donors }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card warning-card">
+
+            <div class="dashboard-card-icon">
+                &#9679;
+            </div>
+
+            <div>
+
+                <span>
+                    Unavailable Donors
+                </span>
+
+                <h2>
+                    {{ unavailable_donors }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                &#9829;
+            </div>
+
+            <div>
+
+                <span>
+                    Total Requests
+                </span>
+
+                <h2>
+                    {{ total_requests }}
+                </h2>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+
+    <div class="dashboard-section">
+
+        <div class="section-title">
+
+            <h2>
+                Blood Request Overview
+            </h2>
+
+            <a href="{{ url_for('requests') }}">
+                View All Requests
+            </a>
+
+        </div>
+
+
+        <div class="request-stats">
+
+            <div class="request-stat pending">
+
+                <span>
+                    Pending
+                </span>
+
+                <strong>
+                    {{ pending_requests }}
+                </strong>
+
+            </div>
+
+
+            <div class="request-stat approved">
+
+                <span>
+                    Approved
+                </span>
+
+                <strong>
+                    {{ approved_requests }}
+                </strong>
+
+            </div>
+
+
+            <div class="request-stat rejected">
+
+                <span>
+                    Rejected
+                </span>
+
+                <strong>
+                    {{ rejected_requests }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+        <h2>
+            Quick Actions
+        </h2>
+
+
+        <div class="quick-action-grid">
+
+            <a href="{{ url_for('donors') }}"
+               class="quick-action-card">
+
+                <div>
+                    &#128101;
+                </div>
+
+                <h3>
+                    Manage Donors
+                </h3>
+
+                <p>
+                    View, edit and manage registered donors.
+                </p>
+
+            </a>
+
+
+            <a href="{{ url_for('requests') }}"
+               class="quick-action-card">
+
+                <div>
+                    &#128203;
+                </div>
+
+                <h3>
+                    Manage Requests
+                </h3>
+
+                <p>
+                    Approve, reject or delete blood requests.
+                </p>
+
+            </a>
+
+
+            <a href="{{ url_for('donor_map') }}"
+               class="quick-action-card">
+
+                <div>
+                    &#128205;
+                </div>
+
+                <h3>
+                    Donor Map
+                </h3>
+
+                <p>
+                    Find available donors by location.
+                </p>
+
+            </a>
+
+
+            <a href="{{ url_for('register_donor') }}"
+               class="quick-action-card">
+
+                <div>
+                    &#9829;
+                </div>
+
+                <h3>
+                    Register Donor
+                </h3>
+
+                <p>
+                    Add a new blood donor to the system.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

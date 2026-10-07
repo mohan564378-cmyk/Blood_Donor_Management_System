@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Blood Donor Management System - Connect blood donors with people in need.">
 
     <title>
         {% block title %}
@@ -10,30 +15,34 @@
         {% endblock %}
     </title>
 
-    <!-- CSS -->
+    <!-- Main CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
+    <!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar">
+    <header class="navbar">
 
         <div class="nav-container">
 
-            <!-- Logo -->
-            <div class="logo">
-                🩸 Blood Donor System
-            </div>
+            <a href="{{ url_for('index') }}"
+               class="logo">
+                🩸 BloodCare
+            </a>
 
-            <!-- Navigation Links -->
-            <div class="nav-links">
+            <button type="button"
+                    class="menu-toggle"
+                    onclick="toggleMenu()"
+                    aria-label="Open navigation menu">
+                ☰
+            </button>
 
-                <!-- FIXED: index instead of home -->
+            <nav class="nav-links"
+                 id="navLinks">
+
                 <a href="{{ url_for('index') }}">
                     Home
                 </a>
@@ -46,6 +55,10 @@
                     Find Donors
                 </a>
 
+                <a href="{{ url_for('donor_map') }}">
+                    Donor Map
+                </a>
+
                 <a href="{{ url_for('add_request') }}">
                     Blood Request
                 </a>
@@ -54,7 +67,7 @@
                     Requests
                 </a>
 
-                {% if session.get('admin') %}
+                {% if session.get("admin") %}
 
                     <a href="{{ url_for('dashboard') }}">
                         Dashboard
@@ -72,41 +85,48 @@
 
                 {% endif %}
 
-            </div>
+            </nav>
 
         </div>
 
-    </nav>
+    </header>
 
 
-    <!-- =====================================================
-         FLASH MESSAGES
-    ====================================================== -->
+    <!-- ================= FLASH MESSAGES ================= -->
 
-    <div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
 
-            {% if messages %}
+            <div class="flash-container">
 
                 {% for category, message in messages %}
 
-                    <div class="alert {{ category }}">
-                        {{ message }}
+                    <div class="alert {{ category }}"
+                         role="alert">
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                        <button type="button"
+                                class="alert-close"
+                                onclick="this.parentElement.remove()">
+                            ×
+                        </button>
+
                     </div>
 
                 {% endfor %}
 
-            {% endif %}
+            </div>
 
-        {% endwith %}
+        {% endif %}
 
-    </div>
+    {% endwith %}
 
 
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
+    <!-- ================= MAIN CONTENT ================= -->
 
     <main class="main-content">
 
@@ -117,28 +137,151 @@
     </main>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
+    <!-- ================= FOOTER ================= -->
 
     <footer class="footer">
 
-        <p>
-            🩸 Blood Donor Management System
-        </p>
+        <div class="footer-container">
 
-        <p>
-            © 2026 All Rights Reserved
-        </p>
+            <!-- About -->
+
+            <div class="footer-column">
+
+                <h3>
+                    🩸 BloodCare
+                </h3>
+
+                <p>
+                    Connecting blood donors with people
+                    who need help.
+                </p>
+
+                <p>
+                    Together, we can make a difference
+                    and save lives.
+                </p>
+
+            </div>
+
+
+            <!-- Quick Links -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Quick Links
+                </h3>
+
+                <a href="{{ url_for('index') }}">
+                    Home
+                </a>
+
+                <a href="{{ url_for('register_donor') }}">
+                    Become a Donor
+                </a>
+
+                <a href="{{ url_for('donors') }}">
+                    Find Donors
+                </a>
+
+                <a href="{{ url_for('donor_map') }}">
+                    Donor Map
+                </a>
+
+                <a href="{{ url_for('add_request') }}">
+                    Blood Request
+                </a>
+
+            </div>
+
+
+            <!-- Emergency -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Emergency
+                </h3>
+
+                <p>
+                    Every blood donor can save lives.
+                </p>
+
+                <p class="footer-highlight">
+                    ❤️ Donate Blood. Save Lives.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 BloodCare Blood Donor Management System.
+                All rights reserved.
+            </p>
+
+        </div>
 
     </footer>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
+    <!-- ================= JAVASCRIPT ================= -->
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+    <script>
+
+        function toggleMenu() {
+
+            const navLinks =
+                document.getElementById("navLinks");
+
+            if (navLinks) {
+
+                navLinks.classList.toggle("active");
+
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const navLinks =
+                    document.getElementById("navLinks");
+
+                if (!navLinks) {
+                    return;
+                }
+
+                const links =
+                    navLinks.querySelectorAll("a");
+
+                links.forEach(function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function () {
+
+                            navLinks.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+                });
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>

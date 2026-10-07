@@ -1,49 +1,174 @@
 {% extends "base.html" %}
 
-{% block title %}Admin Login{% endblock %}
+{% block title %}Admin Login - Blood Donor Management System{% endblock %}
 
 {% block content %}
 
-<div class="login-container">
+<section class="page-section">
 
-    <h1>🔐 Admin Login</h1>
+    <div class="login-container">
 
-    <form method="POST">
+        <div class="login-card">
 
-        <label>Username</label>
+            <!-- LOGIN HEADER -->
 
-        <input type="text"
-               name="username"
-               required>
+            <div class="login-header">
 
+                <div class="login-icon">
+                    &#128274;
+                </div>
 
-        <label>Password</label>
+                <h1>
+                    Admin Login
+                </h1>
 
-        <input type="password"
-               name="password"
-               required>
+                <p>
+                    Secure access to the Blood Donor Management System
+                </p>
 
-
-        <button class="btn"
-                type="submit">
-            Login
-        </button>
-
-    </form>
+            </div>
 
 
-    <p class="login-info">
+            <!-- LOGIN FORM -->
 
-        Demo Username:
-        <strong>admin</strong>
+            <form
+                method="POST"
+                action="{{ url_for('login') }}"
+            >
 
-        <br>
+                <!-- USERNAME -->
 
-        Demo Password:
-        <strong>admin123</strong>
+                <div class="form-group">
 
-    </p>
+                    <label for="username">
+                        Username
+                    </label>
 
-</div>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter admin username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter admin password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- REMEMBER -->
+
+                <div class="checkbox-group">
+
+                    <input
+                        type="checkbox"
+                        id="remember"
+                        name="remember"
+                    >
+
+                    <label for="remember">
+                        Keep me signed in
+                    </label>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="width:100%;"
+                >
+                    &#128274; Login to Dashboard
+                </button>
+
+            </form>
+
+
+            <!-- SECURITY INFORMATION -->
+
+            <div
+                style="
+                    margin-top:25px;
+                    padding:15px;
+                    border-radius:12px;
+                    background:#fff5f5;
+                    border:1px solid #f2d0d3;
+                    text-align:center;
+                "
+            >
+
+                <strong
+                    style="
+                        display:block;
+                        color:#8b0000;
+                        margin-bottom:5px;
+                    "
+                >
+                    &#128737; Administrator Access
+                </strong>
+
+                <p
+                    style="
+                        font-size:12px;
+                        color:#777;
+                        margin:0;
+                    "
+                >
+                    Only authorized administrators should access
+                    the management dashboard.
+                </p>
+
+            </div>
+
+
+            <!-- BACK LINKS -->
+
+            <div
+                style="
+                    margin-top:25px;
+                    text-align:center;
+                "
+            >
+
+                <a
+                    href="{{ url_for('index') }}"
+                    style="
+                        color:#c1121f;
+                        font-size:13px;
+                        font-weight:700;
+                    "
+                >
+                    &larr; Back to Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}
