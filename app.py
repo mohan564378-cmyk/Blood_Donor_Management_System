@@ -3,16 +3,9 @@ import sqlite3
 from functools import wraps
 from datetime import datetime
 
-# =========================================================
-# FLASK APP
-# =========================================================
-
 app = Flask(__name__)
-
-# Secret key for sessions and flash messages
 app.secret_key = "blood_donor_secret_key"
 
-# SQLite database
 DATABASE = "database.db"
 
 
@@ -31,12 +24,9 @@ def get_db():
 # =========================================================
 
 def init_db():
+
     conn = get_db()
     cursor = conn.cursor()
-
-    # -----------------------------------------------------
-    # DONORS TABLE
-    # -----------------------------------------------------
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS donors (
@@ -53,10 +43,6 @@ def init_db():
             available INTEGER DEFAULT 1
         )
     """)
-
-    # -----------------------------------------------------
-    # BLOOD REQUESTS TABLE
-    # -----------------------------------------------------
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS blood_requests (
@@ -80,21 +66,22 @@ def init_db():
 # ADMIN LOGIN DECORATOR
 # =========================================================
 
-def admin_required(func):
-    @wraps(func)
+def admin_required(function):
+
+    @wraps(function)
     def wrapper(*args, **kwargs):
 
         if "admin" not in session:
-            flash("Please login as admin first.", "error")
+            flash("Please login as administrator.", "warning")
             return redirect(url_for("login"))
 
-        return func(*args, **kwargs)
+        return function(*args, **kwargs)
 
     return wrapper
 
 
 # =========================================================
-# HOME PAGE
+# HOME
 # =========================================================
 
 @app.route("/")
@@ -133,37 +120,15 @@ def register_donor():
 
     if request.method == "POST":
 
-        name = request.form.get("name", "").strip()
-        age = request.form.get("age", "").strip()
-        gender = request.form.get("gender", "").strip()
-        blood_group = request.form.get("blood_group", "").strip()
-        phone = request.form.get("phone", "").strip()
-        email = request.form.get("email", "").strip()
-        city = request.form.get("city", "").strip()
-        address = request.form.get("address", "").strip()
-        last_donation = request.form.get("last_donation", "").strip()
-
-        # -------------------------------------------------
-        # VALIDATION
-        # -------------------------------------------------
-
-        if not name or not age or not gender or not blood_group or not phone or not city:
-            flash("Please fill all required fields.", "error")
-            return redirect(url_for("register_donor"))
-
-        try:
-            age = int(age)
-        except ValueError:
-            flash("Age must be a valid number.", "error")
-            return redirect(url_for("register_donor"))
-
-        if age < 18 or age > 65:
-            flash("Donor age must be between 18 and 65.", "error")
-            return redirect(url_for("register_donor"))
-
-        # -------------------------------------------------
-        # INSERT DONOR
-        # -------------------------------------------------
+        name = request.form["name"]
+        age = request.form["age"]
+        gender = request.form["gender"]
+        blood_group = request.form["blood_group"]
+        phone = request.form["phone"]
+        email = request.form["email"]
+        city = request.form["city"]
+        address = request.form["address"]
+        last_donation = request.form["last_donation"]
 
         conn = get_db()
 
@@ -181,7 +146,7 @@ def register_donor():
                 last_donation,
                 available
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             name,
             age,
@@ -191,7 +156,8 @@ def register_donor():
             email,
             city,
             address,
-            last_donation
+            last_donation,
+            1
         ))
 
         conn.commit()
@@ -205,7 +171,7 @@ def register_donor():
 
 
 # =========================================================
-# VIEW / SEARCH DONORS
+# DONOR LIST + SEARCH + LOCATION FILTER
 # =========================================================
 
 @app.route("/donors")
@@ -213,23 +179,23 @@ def donors():
 
     search = request.args.get("search", "").strip()
     blood_group = request.args.get("blood_group", "").strip()
+    city = request.args.get("city", "").strip()
+    availability = request.args.get("availability", "").strip()
 
     conn = get_db()
 
     query = "SELECT * FROM donors WHERE 1=1"
     params = []
 
-    # -----------------------------------------------------
-    # SEARCH
-    # -----------------------------------------------------
-
+    # Search name / phone / city / address
     if search:
 
         query += """
             AND (
                 name LIKE ?
-                OR city LIKE ?
                 OR phone LIKE ?
+                OR city LIKE ?
+                OR address LIKE ?
             )
         """
 
@@ -238,32 +204,57 @@ def donors():
         params.extend([
             search_value,
             search_value,
+            search_value,
             search_value
         ])
 
-    # -----------------------------------------------------
-    # BLOOD GROUP FILTER
-    # -----------------------------------------------------
-
+    # Blood group filter
     if blood_group:
 
         query += " AND blood_group = ?"
         params.append(blood_group)
 
+    # City filter
+    if city:
+
+        query += " AND city LIKE ?"
+        params.append(f"%{city}%")
+
+    # Availability filter
+    if availability == "available":
+
+        query += " AND available = 1"
+
+    elif availability == "unavailable":
+
+        query += " AND available = 0"
+
     query += " ORDER BY id DESC"
 
-    donor_list = conn.execute(
+    donors_list = conn.execute(
         query,
         params
     ).fetchall()
+
+    # Get all locations
+    cities = conn.execute("""
+        SELECT DISTINCT city
+        FROM donors
+        WHERE city IS NOT NULL
+        AND city != ''
+        ORDER BY city
+    """).fetchall()
 
     conn.close()
 
     return render_template(
         "donors.html",
-        donors=donor_list,
+        donors=donors_list,
+        cities=cities,
         search=search,
-        blood_group=blood_group
+        selected_blood_group=blood_group,
+        selected_city=city,
+        selected_availability=availability
     )
 
 
@@ -282,29 +273,25 @@ def edit_donor(donor_id):
         (donor_id,)
     ).fetchone()
 
-    if donor is None:
+    if not donor:
+
         conn.close()
-        flash("Donor not found.", "error")
+
+        flash("Donor not found.", "danger")
+
         return redirect(url_for("donors"))
 
     if request.method == "POST":
 
-        name = request.form.get("name", "").strip()
-        age = request.form.get("age", "").strip()
-        gender = request.form.get("gender", "").strip()
-        blood_group = request.form.get("blood_group", "").strip()
-        phone = request.form.get("phone", "").strip()
-        email = request.form.get("email", "").strip()
-        city = request.form.get("city", "").strip()
-        address = request.form.get("address", "").strip()
-        last_donation = request.form.get("last_donation", "").strip()
-
-        try:
-            age = int(age)
-        except ValueError:
-            conn.close()
-            flash("Age must be a valid number.", "error")
-            return redirect(url_for("edit_donor", donor_id=donor_id))
+        name = request.form["name"]
+        age = request.form["age"]
+        gender = request.form["gender"]
+        blood_group = request.form["blood_group"]
+        phone = request.form["phone"]
+        email = request.form["email"]
+        city = request.form["city"]
+        address = request.form["address"]
+        last_donation = request.form["last_donation"]
 
         conn.execute("""
             UPDATE donors
@@ -365,7 +352,7 @@ def delete_donor(donor_id):
     conn.commit()
     conn.close()
 
-    flash("Donor deleted successfully!", "success")
+    flash("Donor deleted successfully.", "success")
 
     return redirect(url_for("donors"))
 
@@ -385,24 +372,22 @@ def toggle_availability(donor_id):
         (donor_id,)
     ).fetchone()
 
-    if donor is not None:
+    if donor:
 
         new_status = 0 if donor["available"] else 1
 
-        conn.execute("""
+        conn.execute(
+            """
             UPDATE donors
             SET available = ?
             WHERE id = ?
-        """, (
-            new_status,
-            donor_id
-        ))
+            """,
+            (new_status, donor_id)
+        )
 
         conn.commit()
 
     conn.close()
-
-    flash("Donor availability updated!", "success")
 
     return redirect(url_for("donors"))
 
@@ -416,34 +401,32 @@ def login():
 
     if request.method == "POST":
 
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
+        username = request.form["username"]
+        password = request.form["password"]
 
-        # Demo admin credentials
         if username == "admin" and password == "admin123":
 
-            session["admin"] = True
-            session["username"] = username
+            session["admin"] = username
 
-            flash("Admin login successful!", "success")
+            flash("Login successful!", "success")
 
             return redirect(url_for("dashboard"))
 
-        flash("Invalid username or password.", "error")
+        flash("Invalid username or password.", "danger")
 
     return render_template("login.html")
 
 
 # =========================================================
-# ADMIN LOGOUT
+# LOGOUT
 # =========================================================
 
 @app.route("/logout")
 def logout():
 
-    session.clear()
+    session.pop("admin", None)
 
-    flash("You have been logged out.", "success")
+    flash("Logged out successfully.", "success")
 
     return redirect(url_for("index"))
 
@@ -509,55 +492,13 @@ def add_request():
 
     if request.method == "POST":
 
-        patient_name = request.form.get(
-            "patient_name", ""
-        ).strip()
-
-        blood_group = request.form.get(
-            "blood_group", ""
-        ).strip()
-
-        units = request.form.get(
-            "units", ""
-        ).strip()
-
-        hospital = request.form.get(
-            "hospital", ""
-        ).strip()
-
-        city = request.form.get(
-            "city", ""
-        ).strip()
-
-        phone = request.form.get(
-            "phone", ""
-        ).strip()
-
-        reason = request.form.get(
-            "reason", ""
-        ).strip()
-
-        # -------------------------------------------------
-        # VALIDATION
-        # -------------------------------------------------
-
-        if not patient_name or not blood_group or not units or not hospital or not city or not phone:
-            flash("Please fill all required fields.", "error")
-            return redirect(url_for("add_request"))
-
-        try:
-            units = int(units)
-        except ValueError:
-            flash("Units must be a valid number.", "error")
-            return redirect(url_for("add_request"))
-
-        if units <= 0:
-            flash("Units must be greater than zero.", "error")
-            return redirect(url_for("add_request"))
-
-        # -------------------------------------------------
-        # INSERT REQUEST
-        # -------------------------------------------------
+        patient_name = request.form["patient_name"]
+        blood_group = request.form["blood_group"]
+        units = request.form["units"]
+        hospital = request.form["hospital"]
+        city = request.form["city"]
+        phone = request.form["phone"]
+        reason = request.form["reason"]
 
         conn = get_db()
 
@@ -573,7 +514,7 @@ def add_request():
                 reason,
                 status
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             patient_name,
             blood_group,
@@ -581,7 +522,8 @@ def add_request():
             hospital,
             city,
             phone,
-            reason
+            reason,
+            "Pending"
         ))
 
         conn.commit()
@@ -599,11 +541,12 @@ def add_request():
 # =========================================================
 
 @app.route("/requests")
+@admin_required
 def requests():
 
     conn = get_db()
 
-    request_list = conn.execute("""
+    blood_requests = conn.execute("""
         SELECT *
         FROM blood_requests
         ORDER BY id DESC
@@ -613,12 +556,12 @@ def requests():
 
     return render_template(
         "requests.html",
-        requests=request_list
+        requests=blood_requests
     )
 
 
 # =========================================================
-# APPROVE BLOOD REQUEST
+# APPROVE REQUEST
 # =========================================================
 
 @app.route("/approve-request/<int:request_id>")
@@ -631,20 +574,18 @@ def approve_request(request_id):
         UPDATE blood_requests
         SET status = 'Approved'
         WHERE id = ?
-    """, (
-        request_id,
-    ))
+    """, (request_id,))
 
     conn.commit()
     conn.close()
 
-    flash("Blood request approved!", "success")
+    flash("Blood request approved.", "success")
 
     return redirect(url_for("requests"))
 
 
 # =========================================================
-# REJECT BLOOD REQUEST
+# REJECT REQUEST
 # =========================================================
 
 @app.route("/reject-request/<int:request_id>")
@@ -657,20 +598,18 @@ def reject_request(request_id):
         UPDATE blood_requests
         SET status = 'Rejected'
         WHERE id = ?
-    """, (
-        request_id,
-    ))
+    """, (request_id,))
 
     conn.commit()
     conn.close()
 
-    flash("Blood request rejected.", "success")
+    flash("Blood request rejected.", "warning")
 
     return redirect(url_for("requests"))
 
 
 # =========================================================
-# DELETE BLOOD REQUEST
+# DELETE REQUEST
 # =========================================================
 
 @app.route("/delete-request/<int:request_id>")
@@ -679,31 +618,28 @@ def delete_request(request_id):
 
     conn = get_db()
 
-    conn.execute("""
-        DELETE FROM blood_requests
-        WHERE id = ?
-    """, (
-        request_id,
-    ))
+    conn.execute(
+        "DELETE FROM blood_requests WHERE id = ?",
+        (request_id,)
+    )
 
     conn.commit()
     conn.close()
 
-    flash("Blood request deleted successfully!", "success")
+    flash("Blood request deleted.", "success")
 
     return redirect(url_for("requests"))
 
 
 # =========================================================
-# INITIALIZE DATABASE
-# IMPORTANT FOR RENDER / GUNICORN
+# START DATABASE
 # =========================================================
 
 init_db()
 
 
 # =========================================================
-# RUN APPLICATION LOCALLY
+# RUN APPLICATION
 # =========================================================
 
 if __name__ == "__main__":

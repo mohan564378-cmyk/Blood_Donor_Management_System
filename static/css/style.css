@@ -145,6 +145,10 @@ h3 {
     margin-bottom: 30px;
 }
 
+.page-title p {
+    color: #666;
+}
+
 /* =========================================================
    BUTTONS
 ========================================================= */
@@ -566,7 +570,7 @@ textarea {
 }
 
 /* =========================================================
-   SEARCH
+   SEARCH AND LOCATION FILTER
 ========================================================= */
 
 .search-box {
@@ -578,14 +582,50 @@ textarea {
 }
 
 .search-form {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr auto auto;
     gap: 10px;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
-.search-form input {
-    flex: 1;
-    min-width: 200px;
+.search-form input,
+.search-form select {
+    width: 100%;
+    min-height: 42px;
+}
+
+.search-form input::placeholder {
+    color: #888;
+}
+
+.search-form select {
+    cursor: pointer;
+}
+
+.location-badge {
+    display: inline-block;
+    background: #fce4ec;
+    color: #c62828;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   LOCATION CARD
+========================================================= */
+
+.location-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+.location-icon {
+    font-size: 18px;
 }
 
 /* =========================================================
@@ -603,7 +643,7 @@ textarea {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px;
+    min-width: 850px;
 }
 
 thead {
@@ -620,6 +660,7 @@ td {
 
 th {
     font-size: 14px;
+    white-space: nowrap;
 }
 
 td {
@@ -636,6 +677,11 @@ tbody tr:hover {
     flex-wrap: wrap;
 }
 
+.table-actions .btn {
+    font-size: 12px;
+    padding: 7px 10px;
+}
+
 /* =========================================================
    STATUS BADGES
 ========================================================= */
@@ -646,6 +692,7 @@ tbody tr:hover {
     border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .status-available,
@@ -697,7 +744,7 @@ tbody tr:hover {
 }
 
 /* =========================================================
-   REQUEST PAGE
+   BLOOD REQUEST
 ========================================================= */
 
 .request-card {
@@ -732,6 +779,20 @@ tbody tr:hover {
 
 .request-info strong {
     color: #333;
+}
+
+/* =========================================================
+   BLOOD GROUP BADGE
+========================================================= */
+
+.blood-group-badge {
+    display: inline-block;
+    background: #c62828;
+    color: white;
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 13px;
 }
 
 /* =========================================================
@@ -798,6 +859,10 @@ tbody tr:hover {
     .stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .search-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* =========================================================
@@ -842,6 +907,14 @@ tbody tr:hover {
     .request-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .search-form {
+        grid-template-columns: 1fr;
+    }
+
+    .search-form .btn {
+        width: 100%;
     }
 }
 
@@ -925,5 +998,9 @@ tbody tr:hover {
 
     .section-title h2 {
         font-size: 25px;
+    }
+
+    .search-box {
+        padding: 15px;
     }
 }
